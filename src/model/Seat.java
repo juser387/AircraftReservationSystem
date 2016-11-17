@@ -48,7 +48,7 @@ public class Seat extends Object {
 	}
 
 	public double getSeatPrice() {
-
+		
 		return seatPrice;
 	}
 

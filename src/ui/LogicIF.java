@@ -35,45 +35,45 @@ public class LogicIF {
 	private Aircraft aircraft = new Aircraft(1);
 
 	public boolean areSeatsAvailable(SectionType sectionType) {
-		return true;
+		return true;  // TODO:
 	}
 
 	public Iterator<Integer> getAvailableSeats(SectionType sectionType) {
-		return aircraftSeats.iterator();
+		return aircraftSeats.iterator(); // TODO: Requires rethink
 	}
 
 	public boolean isSeatAvailable(int seatNo, SectionType sectionType) {
-		Iterator<Integer> iter = aircraftSeats.iterator();
-		while (iter.hasNext()) {
-			if (seatNo == iter.next()) {
-				return true;
-			}
+		Seat seat = aircraft.findSeat(seatNo);
+		if (seat != null) {
+			return seat.getPassenger() == null && seat.getSectionType() == sectionType;
+		} else {
+			return false;
 		}
-		return false;
 	}
 
 	public int getSeatPrice(int seatNo) {
-		return 2_000;
+		Seat seat = aircraft.findSeat(seatNo);
+		return (int) seat.getSeatPrice(); // TODO: revisit cast
 	}
 
 	public Iterator<String> getAvailableMeals(SectionType sectionType) {
-		return menuMeals.iterator();
+		return menuMeals.iterator(); // TODO:
 	}
 
 	public boolean isMealAvailable(int mealNo, SectionType sectionType) {
-		return mealNo != 3;
+		return mealNo != 3; // TODO:
 	}
 
 	public int getMealPrice(int mealNo) {
-		return 95;
+		return 95; // TODO:
 	}
 
 	public int getTotalRevenue() {
-		return 10_000;
+		return 10_000; // TODO:
 	}
 
 	public int getTotalProfit() {
-		return (int) (getTotalRevenue() * 0.3);
+		return (int) (getTotalRevenue() * 0.3); // TODO:
 	}
 
 	public void makeReservation(int seatNo, String passengerName, int mealNo) {
