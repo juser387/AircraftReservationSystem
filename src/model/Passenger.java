@@ -9,7 +9,7 @@ package model;
 public class Passenger {
 
 	private String name;
-	private Meal meal;
+	private int mealNo;
 	
 	/**********************************************************************
 	 * Constructor description
@@ -18,9 +18,9 @@ public class Passenger {
 	 * @param ....
 	 * 
 	 *********************************************************************/
-	public Passenger(String name, Meal meal) {
+	public Passenger(String name, int mealNo) {
 		this.name = name;
-		this.meal = meal;
+		this.mealNo = mealNo;
 	}
 
 	public String getName() {
@@ -31,11 +31,11 @@ public class Passenger {
 		this.name = name;
 	}
 
-	public Meal getMeal() {
-		return meal;
+	public int getMealNo() {
+		return mealNo;
 	}
 
-	public void setMeal(Meal meal) {
-		this.meal = meal;
+	public void setMealNo(int mealNo) {
+		this.mealNo = mealNo;
 	}
 }

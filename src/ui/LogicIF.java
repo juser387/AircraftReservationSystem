@@ -3,10 +3,18 @@ package ui;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import model.Aircraft;
+import model.Passenger;
+import model.Seat;
 import model.SectionType;
 
 public class LogicIF {
 
+	/*
+	 * =======================================================================
+	 * Temporary variables
+	 * =======================================================================
+	 */
 	private ArrayList<Integer> aircraftSeats = new ArrayList<>();
 	private ArrayList<String> menuMeals = new ArrayList<>();
 
@@ -18,6 +26,13 @@ public class LogicIF {
 		menuMeals.add("12 Köttbullar med lingon 59:00");
 		menuMeals.add("17 Entrecote             79:00");
 	}
+
+	/*
+	 * =======================================================================
+	 * References to the business model
+	 * =======================================================================
+	 */
+	private Aircraft aircraft = new Aircraft(1);
 
 	public boolean areSeatsAvailable(SectionType sectionType) {
 		return true;
@@ -62,11 +77,13 @@ public class LogicIF {
 	}
 
 	public void makeReservation(int seatNo, String passengerName, int mealNo) {
-		System.out.println("---- Reservation made in the business logic ----");
+		Passenger passenger = new Passenger(passengerName, mealNo);
+		Seat seat = aircraft.findSeat(seatNo);
+		seat.setPassenger(passenger);
 	}
 
 	public void clearAllReservations() {
-		System.out.println("---- All reservations cleared in the business logic ----");
+		aircraft.clearAllSeats();
 	}
 
 }
