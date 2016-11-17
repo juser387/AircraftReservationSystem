@@ -3,10 +3,11 @@ package ui;
 import java.util.Iterator;
 import java.util.Scanner;
 
+import model.Meal;
 import model.SectionType;
 
 public class Parser {
-    Scanner scanner = new Scanner(System.in);
+	Scanner scanner = new Scanner(System.in);
 	LogicIF logicIF = new LogicIF();
 
 	final String helpCmd = "HELP";
@@ -15,9 +16,9 @@ public class Parser {
 	final String clearCmd = "CLEAR";
 	final String exitCmd = "EXIT";
 
-	//------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 	// parse() - main parsing loop
-	//------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 	public void parse() {
 		boolean doContinue = true;
 
@@ -46,9 +47,9 @@ public class Parser {
 		}
 	}
 
-	//------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 	// Methods for parsing the parameters for the commands
-	//------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 	private void parseHelp() {
 		infoMessage("Available commands are:");
 		infoMessage("  %s", bookCmd);
@@ -99,10 +100,14 @@ public class Parser {
 		passengerName = readLine("Enter passenger name: ");
 
 		// List meals
-		Iterator<String> iter2 = logicIF.getAvailableMeals(selectedSection);
+		Iterator<Meal> iter2 = logicIF.getAvailableMeals(selectedSection);  // TODO: review
 		infoMessage("Available meals:");
 		while (iter2.hasNext()) {
-			infoMessage(iter2.next());
+			Meal meal = iter2.next();
+			if (meal.getSectionType() == selectedSection) {
+				infoMessage(String.valueOf(meal.getMealID()) + " " + meal.getMealDescription() + " price: "
+						+ String.valueOf(meal.getMealPrice()));
+			}
 		}
 
 		// Get meal and compute price
@@ -139,9 +144,9 @@ public class Parser {
 		}
 	}
 
-	//------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 	// Methods for parsing parameter values
-	//------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 	private SectionType parseSectionType(String prompt) {
 		while (true) {
 			String sectionString = readLine(prompt);
@@ -206,19 +211,19 @@ public class Parser {
 		}
 	}
 
-	//------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 	// Utilities
-	//------------------------------------------------------------------------
-    private void infoMessage(String format, Object... args) {
-        System.out.println(String.format(format, args));
-    }
+	// ------------------------------------------------------------------------
+	private void infoMessage(String format, Object... args) {
+		System.out.println(String.format(format, args));
+	}
 
-    private void errorMessage(String format, Object... args) {
-        System.out.println(String.format(format, args));
-    }
+	private void errorMessage(String format, Object... args) {
+		System.out.println(String.format(format, args));
+	}
 
-    private String readLine(String prompt) {
-        System.out.print(prompt);
-        return scanner.nextLine().trim();
-    }
+	private String readLine(String prompt) {
+		System.out.print(prompt);
+		return scanner.nextLine().trim();
+	}
 }
