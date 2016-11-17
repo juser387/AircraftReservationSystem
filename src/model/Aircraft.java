@@ -1,5 +1,7 @@
 package model;
 
+import utilities.SectionType;
+import utilities.Constants;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -10,11 +12,6 @@ import java.util.Iterator;
  */
 
 public class Aircraft {
-
-	final static double PRICE_FIRST = 20_000.0;
-	final static double PRICE_ECONOMY = 5_000.0;
-	final static int NO_OF_SEATS = 10;
-	final static int NO_OF_FIRST_CLASS_SEATS = 5;
 
 	private static ArrayList<Seat> seatList;
 
@@ -44,12 +41,12 @@ public class Aircraft {
 	 *********************************************************************/
 	public void addSeats(ArrayList<Seat> seats) {
 
-		while (seats.size() <= NO_OF_SEATS) {
+		while (seats.size() <= Constants.NO_OF_SEATS) {
 
-			if (seats.size() <= NO_OF_FIRST_CLASS_SEATS) {
-				seatList.add(new Seat(seats.size(), PRICE_FIRST, SectionType.FIRST));
+			if (seats.size() <= Constants.NO_OF_FIRST_CLASS_SEATS) {
+				seatList.add(new Seat(seats.size(), Constants.PRICE_FIRST, SectionType.FIRST));
 			} else {
-				seatList.add(new Seat(seats.size(), PRICE_ECONOMY, SectionType.ECONOMY));
+				seatList.add(new Seat(seats.size(), Constants.PRICE_ECONOMY, SectionType.ECONOMY));
 			}
 		}
 	}

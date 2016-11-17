@@ -1,5 +1,7 @@
 package model;
 
+import utilities.SectionType;
+
 /**
  * Class description field
  * 

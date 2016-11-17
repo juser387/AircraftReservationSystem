@@ -6,7 +6,7 @@ import java.util.Iterator;
 import model.Aircraft;
 import model.Passenger;
 import model.Seat;
-import model.SectionType;
+import utilities.SectionType;
 
 public class LogicIF {
 

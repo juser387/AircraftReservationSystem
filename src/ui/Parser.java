@@ -2,8 +2,7 @@ package ui;
 
 import java.util.Iterator;
 import java.util.Scanner;
-
-import model.SectionType;
+import utilities.SectionType;
 
 public class Parser {
     Scanner scanner = new Scanner(System.in);
