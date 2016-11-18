@@ -8,14 +8,15 @@ import model.Seat;
 import utilities.SectionType;
 
 public class Parser {
-	Scanner scanner = new Scanner(System.in);
-	LogicIF logicIF = new LogicIF();
+	private Scanner scanner = new Scanner(System.in);
+	private LogicIF logicIF = new LogicIF();
 
-	final String helpCmd = "HELP";
-	final String bookCmd = "BOOK";
-	final String sumCmd = "SUMMARY";
-	final String clearCmd = "CLEAR";
-	final String exitCmd = "EXIT";
+	private static final String HELP_CMD = "HELP";
+	private static final String BOOK_CMD = "BOOK";
+	private static final String LIST_CMD = "LIST";
+	private static final String SUM_CMD = "SUMMARY";
+	private static final String CLEAR_CMD = "CLEAR";
+	private static final String EXIT_CMD = "EXIT";
 
 	// ------------------------------------------------------------------------
 	// parse() - main parsing loop
@@ -27,19 +28,22 @@ public class Parser {
 			String command = readLine("Enter a command: ");
 
 			switch (command.toUpperCase()) {
-			case helpCmd:
+			case HELP_CMD:
 				parseHelp();
 				break;
-			case bookCmd:
+			case BOOK_CMD:
 				parseBook();
 				break;
-			case sumCmd:
+			case LIST_CMD:
+				parseList();
+				break;
+			case SUM_CMD:
 				parseSum();
 				break;
-			case clearCmd:
+			case CLEAR_CMD:
 				parseClear();
 				break;
-			case exitCmd:
+			case EXIT_CMD:
 				doContinue = false;
 				break;
 			default:
@@ -53,10 +57,10 @@ public class Parser {
 	// ------------------------------------------------------------------------
 	private void parseHelp() {
 		infoMessage("Available commands are:");
-		infoMessage("  %s", bookCmd);
-		infoMessage("  %s", sumCmd);
-		infoMessage("  %s", clearCmd);
-		infoMessage("  %s", exitCmd);
+		infoMessage("  %s", BOOK_CMD);
+		infoMessage("  %s", SUM_CMD);
+		infoMessage("  %s", CLEAR_CMD);
+		infoMessage("  %s", EXIT_CMD);
 	}
 
 	private void parseBook() {
@@ -105,7 +109,7 @@ public class Parser {
 		// Output reservation information
 		if (selectedMeal != 0) {
 			infoMessage("Seat %d reserved for %s. Meal %d ordered.", selectedSeat, passengerName, selectedMeal);
-			infoMessage("Total price %.2f", logicIF.getSeatPrice(selectedSeat) + logicIF.getMealPrice(selectedMeal)); 
+			infoMessage("Total price %.2f", logicIF.getSeatPrice(selectedSeat) + logicIF.getMealPrice(selectedMeal));
 		} else {
 			infoMessage("Seat %d reserved for %s. No meal ordered.", selectedSeat, passengerName);
 			infoMessage("Total price %.2f", logicIF.getSeatPrice(selectedSeat));
@@ -121,11 +125,14 @@ public class Parser {
 	}
 
 	// TODO: Implement REBOOK command
-	// TODO: Implement LIST command
-	
+
+	private void parseList() {
+		displaySeats();
+	}
+
 	private void parseSum() {
-		infoMessage("Total revenue %d", logicIF.getTotalRevenue());
-		infoMessage("Total profit %d", logicIF.getTotalProfit());
+		infoMessage("Total revenue %.2f", logicIF.getTotalRevenue());
+		infoMessage("Total profit %.2f", logicIF.getTotalProfit());
 	}
 
 	private void parseClear() {
@@ -211,7 +218,7 @@ public class Parser {
 		Iterator<Seat> iter = logicIF.getSeats();
 		System.out.print("Available seats: ");
 		boolean isAnySeatsOutput = false;
-		
+
 		while (iter.hasNext()) {
 			Seat seat = iter.next();
 			if (seat.getSectionType() == sectionType && seat.getPassenger() == null) {
@@ -226,12 +233,54 @@ public class Parser {
 		System.out.println();
 	}
 
+	private void displaySeats() {
+		Iterator<Seat> iter = logicIF.getSeats();
+
+		displaySeatHeader();
+		while (iter.hasNext()) {
+			displaySeat(iter.next());
+		}
+	}
+
+	private void displaySeatHeader() {
+		StringBuffer sb = new StringBuffer();
+		appendString(sb, "Seat", 4);
+		sb.append(" ");
+		appendString(sb, "Section", 8);
+		sb.append(" ");
+		appendString(sb, "Price", 10);
+		sb.append(" ");
+		appendString(sb, "Passenger name", 30);
+		sb.append(" ");
+		appendString(sb, "Meal", 8);
+		System.out.println(sb);
+	}
+
+	private void displaySeat(Seat seat) {
+		StringBuffer sb = new StringBuffer();
+		appendString(sb, String.valueOf(seat.getSeatID()), 4);
+		// TODO: values are left aligned, should be right-aligned
+		sb.append(" ");
+		appendString(sb, seat.getSectionType().toString(), 8);
+		sb.append(" ");
+		appendString(sb, String.format("%.2f", seat.getSeatPrice()), 10);
+		// TODO: values are left aligned, should be right-aligned
+		if (seat.getPassenger() != null) {
+			sb.append(" ");
+			appendString(sb, seat.getPassenger().getName(), 30);
+			sb.append(" ");
+			appendString(sb, String.valueOf(seat.getPassenger().getMealNo()), 4);
+			// TODO: Do not write zero if no meal is ordered
+		}
+		System.out.println(sb);
+	}
+
 	private boolean displayMeals(SectionType sectionType) {
-		Iterator<Meal> iter2 = logicIF.getMeals();
+		Iterator<Meal> iter = logicIF.getMeals();
 		boolean anyMealsFound = false;
 
-		while (iter2.hasNext()) {
-			Meal meal = iter2.next();
+		while (iter.hasNext()) {
+			Meal meal = iter.next();
 			if (meal.getSectionType() == sectionType) {
 				if (!anyMealsFound) {
 					displayMealHeader();
@@ -248,9 +297,9 @@ public class Parser {
 		StringBuffer sb = new StringBuffer();
 		appendString(sb, "No", 4);
 		sb.append(" ");
-		appendString(sb, "Done", 30);
+		appendString(sb, "Description", 30);
 		sb.append(" ");
-		appendString(sb, "Price", 8);
+		appendString(sb, "Price", 10);
 		System.out.println(sb);
 	}
 
@@ -260,14 +309,14 @@ public class Parser {
 		sb.append(" ");
 		appendString(sb, meal.getMealDescription(), 30);
 		sb.append(" ");
-		appendString(sb, String.format("%.2f", meal.getMealPrice()), 8);
+		appendString(sb, String.format("%.2f", meal.getMealPrice()), 10);
 		System.out.println(sb);
 	}
 
 	// ------------------------------------------------------------------------
 	// Utilities
 	// ------------------------------------------------------------------------
-	public static void appendString(StringBuffer sb, String s, int length) {
+	private void appendString(StringBuffer sb, String s, int length) {
 		for (int i = 0; i < length; i++) {
 			if (i < s.length()) {
 				sb.append(s.charAt(i));

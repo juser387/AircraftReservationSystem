@@ -18,6 +18,8 @@ public class LogicIF {
 	 */
 	private Aircraft aircraft = new Aircraft(1);
 	private Menu menu = new Menu();
+	
+	//TODO: Add support for multiple aircrafts (optional bonus assignment 1)
 
 	public boolean areSeatsAvailable(SectionType sectionType) {
 		Iterator<Seat> iter = getSeats();
@@ -46,7 +48,7 @@ public class LogicIF {
 
 	public double getSeatPrice(int seatNo) {
 		Seat seat = aircraft.findSeat(seatNo);
-		return seat.getSeatPrice(); 
+		return seat.getSeatPrice();
 	}
 
 	public Iterator<Meal> getMeals() {
@@ -71,16 +73,27 @@ public class LogicIF {
 		}
 	}
 
-	// TODO: Retrieve data from the business model
-	// TODO: change return type to double
-	public int getTotalRevenue() {
-		return 10_000;
+	public double getTotalRevenue() {
+		Iterator<Seat> iter = aircraft.getIterator();
+		double sum = 0.0;
+
+		while (iter.hasNext()) {
+			Seat seat = iter.next();
+			if (seat.getPassenger() != null) {
+				sum += seat.getSeatPrice();
+
+				Meal meal = menu.findMeal(seat.getPassenger().getMealNo());
+				if (meal != null) {
+					sum += meal.getMealPrice();
+				}
+			}
+		}
+
+		return sum;
 	}
 
-	// TODO: Retrieve data from the business model
-	// TODO: change return type to double
-	public int getTotalProfit() {
-		return (int) (getTotalRevenue() * 0.3); 
+	public double getTotalProfit() {
+		return getTotalRevenue() * 0.3;
 	}
 
 	public void makeReservation(int seatNo, String passengerName, int mealNo) {
