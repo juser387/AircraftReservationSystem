@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import model.Aircraft;
+import model.Meal;
+import model.Menu;
 import model.Passenger;
 import model.Seat;
 import utilities.SectionType;
@@ -33,9 +35,10 @@ public class LogicIF {
 	 * =======================================================================
 	 */
 	private Aircraft aircraft = new Aircraft(1);
+	private Menu menu = new Menu();
 
 	public boolean areSeatsAvailable(SectionType sectionType) {
-		return true;  // TODO:
+		return true; // TODO:
 	}
 
 	public Iterator<Integer> getAvailableSeats(SectionType sectionType) {
@@ -56,16 +59,26 @@ public class LogicIF {
 		return (int) seat.getSeatPrice(); // TODO: revisit cast
 	}
 
-	public Iterator<String> getAvailableMeals(SectionType sectionType) {
-		return menuMeals.iterator(); // TODO:
+	public Iterator<Meal> getAvailableMeals(SectionType sectionType) {
+		return menu.getIterator();
 	}
 
 	public boolean isMealAvailable(int mealNo, SectionType sectionType) {
-		return mealNo != 3; // TODO:
+		Meal meal = menu.findMeal(mealNo);
+		if (meal != null) {
+			return meal.getSectionType() == sectionType;
+		} else {
+			return false;
+		}
 	}
 
 	public int getMealPrice(int mealNo) {
-		return 95; // TODO:
+		Meal meal = menu.findMeal(mealNo);
+		if (meal != null) {
+			return (int) meal.getMealPrice();
+		} else {
+			return 0;
+		}
 	}
 
 	public int getTotalRevenue() {
