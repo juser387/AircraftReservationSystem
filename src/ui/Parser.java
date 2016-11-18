@@ -81,15 +81,7 @@ public class Parser {
 		}
 
 		// List available seats
-		Iterator<Seat> iter1 = logicIF.getAvailableSeats();
-		System.out.print("Available seats: ");
-
-		while (iter1.hasNext()) {
-			System.out.print(iter1.next().getSeatID());
-			System.out.print(", ");
-		}
-		System.out.println();
-		// TODO: Clean up the print-out
+		displayFreeSeatList(selectedSection);
 
 		// Get seat
 		selectedSeat = parseSeatNo("Enter seat no (0 = cancel reservation): ", selectedSection);
@@ -210,10 +202,31 @@ public class Parser {
 	// ------------------------------------------------------------------------
 	// Utilities for outputting Meal and Seat items
 	// ------------------------------------------------------------------------
+	private void displayFreeSeatList(SectionType sectionType) {
+		Iterator<Seat> iter = logicIF.getAvailableSeats();
+		System.out.print("Available seats: ");
+		boolean isAnySeatsOutput = false;
+		
+		while (iter.hasNext()) {
+			Seat seat = iter.next();
+			if (seat.getSectionType() == sectionType && seat.getPassenger() == null) {
+				if (isAnySeatsOutput) {
+					System.out.print(", ");
+				} else {
+					isAnySeatsOutput = true;
+				}
+				System.out.print(seat.getSeatID());
+			}
+		}
+		System.out.println();
+		// TODO: Clean up the print-out
+
+	}
+
 	private boolean displayMeals(SectionType sectionType) {
 		Iterator<Meal> iter2 = logicIF.getAvailableMeals();
 		boolean anyMealsFound = false;
-		
+
 		while (iter2.hasNext()) {
 			Meal meal = iter2.next();
 			if (meal.getSectionType() == sectionType) {
@@ -224,10 +237,10 @@ public class Parser {
 				displayMeal(meal);
 			}
 		}
-		
+
 		return anyMealsFound;
 	}
-	
+
 	private void displayMealHeader() {
 		StringBuffer sb = new StringBuffer();
 		appendString(sb, "No", 4);
