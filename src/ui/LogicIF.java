@@ -14,23 +14,6 @@ public class LogicIF {
 
 	/*
 	 * =======================================================================
-	 * Temporary variables
-	 * =======================================================================
-	 */
-	private ArrayList<Integer> aircraftSeats = new ArrayList<>();
-	private ArrayList<String> menuMeals = new ArrayList<>();
-
-	public LogicIF() {
-		aircraftSeats.add(1);
-		aircraftSeats.add(4);
-		aircraftSeats.add(7);
-		menuMeals.add(" 7 Dagens fisk           64:00");
-		menuMeals.add("12 Köttbullar med lingon 59:00");
-		menuMeals.add("17 Entrecote             79:00");
-	}
-
-	/*
-	 * =======================================================================
 	 * References to the business model
 	 * =======================================================================
 	 */
@@ -38,10 +21,18 @@ public class LogicIF {
 	private Menu menu = new Menu();
 
 	public boolean areSeatsAvailable(SectionType sectionType) {
-		return true;  // TODO:
+		Iterator<Seat> iter = getAvailableSeats();
+
+		while (iter.hasNext()) {
+			Seat seat = iter.next();
+			if (seat.getSectionType() == sectionType && seat.getPassenger() == null) {
+				return true;
+			}
+		}
+		return false;
 	}
 
-	public Iterator<Seat> getAvailableSeats() {  // TODO: rename this operation
+	public Iterator<Seat> getAvailableSeats() { // TODO: Rename this operation
 		return aircraft.getIterator();
 	}
 
@@ -54,13 +45,14 @@ public class LogicIF {
 		}
 	}
 
+	// TODO: change return type to double
 	public int getSeatPrice(int seatNo) {
 		Seat seat = aircraft.findSeat(seatNo);
-		return (int) seat.getSeatPrice(); // TODO: revisit cast
+		return (int) seat.getSeatPrice(); 
 	}
 
-	public Iterator<Meal> getAvailableMeals() {
-		return menu.getIterator(); 
+	public Iterator<Meal> getAvailableMeals() {  // TODO: Rename this method
+		return menu.getIterator();
 	}
 
 	public boolean isMealAvailable(int mealNo, SectionType sectionType) {
@@ -81,12 +73,16 @@ public class LogicIF {
 		}
 	}
 
+	// TODO: Retrieve data from the business model
+	// TODO: change return type to double
 	public int getTotalRevenue() {
-		return 10_000; // TODO:
+		return 10_000; 
 	}
 
+	// TODO: Retrieve data from the business model
+	// TODO: change return type to double
 	public int getTotalProfit() {
-		return (int) (getTotalRevenue() * 0.3); // TODO:
+		return (int) (getTotalRevenue() * 0.3); 
 	}
 
 	public void makeReservation(int seatNo, String passengerName, int mealNo) {

@@ -72,8 +72,10 @@ public class Parser {
 		if (isFirstAvailable && isEconomyAvailable) {
 			selectedSection = parseSectionType("Enter first or economy class (f/e): ");
 		} else if (isFirstAvailable) {
+			infoMessage("Only seats in first class are available");
 			selectedSection = SectionType.FIRST;
 		} else if (isEconomyAvailable) {
+			infoMessage("Only seats in economy class are available");
 			selectedSection = SectionType.ECONOMY;
 		} else {
 			errorMessage("No seats available");
@@ -118,6 +120,9 @@ public class Parser {
 		}
 	}
 
+	// TODO: Implement REBOOK command
+	// TODO: Implement LIST command
+	
 	private void parseSum() {
 		infoMessage("Total revenue %d", logicIF.getTotalRevenue());
 		infoMessage("Total profit %d", logicIF.getTotalProfit());
@@ -219,8 +224,6 @@ public class Parser {
 			}
 		}
 		System.out.println();
-		// TODO: Clean up the print-out
-
 	}
 
 	private boolean displayMeals(SectionType sectionType) {
@@ -259,6 +262,7 @@ public class Parser {
 		sb.append(" ");
 		appendString(sb, String.valueOf(meal.getMealPrice()), 8);
 		System.out.println(sb.toString());
+		// TODO: review formatting of the float number
 	}
 
 	// ------------------------------------------------------------------------
