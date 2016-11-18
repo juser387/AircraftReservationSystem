@@ -29,11 +29,11 @@ public class Menu {
 		mealList.add(new Meal(4, 48.0, "Lux Wrap", SectionType.FIRST));
 		mealList.add(new Meal(5, 55.0, "Pasta", SectionType.FIRST));
 
-		mealList.add(new Meal(1, 56.0, "Hamburger", SectionType.ECONOMY));
-		mealList.add(new Meal(2, 34.0, "Sandwich", SectionType.ECONOMY));
-		mealList.add(new Meal(3, 32.0, "Chili Toast", SectionType.ECONOMY));
-		mealList.add(new Meal(4, 47.0, "Chicken Nuggets", SectionType.ECONOMY));
-		mealList.add(new Meal(5, 42.0, "Light Salad", SectionType.ECONOMY));
+		mealList.add(new Meal(6, 56.0, "Hamburger", SectionType.ECONOMY));
+		mealList.add(new Meal(7, 34.0, "Sandwich", SectionType.ECONOMY));
+		mealList.add(new Meal(8, 32.0, "Chili Toast", SectionType.ECONOMY));
+		mealList.add(new Meal(9, 47.0, "Chicken Nuggets", SectionType.ECONOMY));
+		mealList.add(new Meal(10, 42.0, "Light Salad", SectionType.ECONOMY));
 	}
 
 	public Iterator<Meal> getIterator() {

@@ -35,7 +35,7 @@ public class Seat extends Object {
 
 		objCount++;
 
-		this.seatID = seatID;
+		this.seatID = seatID+1;
 		this.seatPrice = seatPrice;
 		this.sectionType = sectionType;
 	}
