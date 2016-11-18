@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 import model.Meal;
+import model.Seat;
 import utilities.SectionType;
 
 public class Parser {

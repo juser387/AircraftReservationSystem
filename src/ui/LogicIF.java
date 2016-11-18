@@ -38,7 +38,7 @@ public class LogicIF {
 	private Menu menu = new Menu();
 
 	public boolean areSeatsAvailable(SectionType sectionType) {
-		return true; // TODO:
+		return true;  // TODO:
 	}
 
 	public Iterator<Seat> getAvailableSeats() {  // TODO: rename this operation
@@ -59,13 +59,8 @@ public class LogicIF {
 		return (int) seat.getSeatPrice(); // TODO: revisit cast
 	}
 
-<<<<<<< HEAD
 	public Iterator<Meal> getAvailableMeals() {
 		return menu.getIterator(); 
-=======
-	public Iterator<Meal> getAvailableMeals(SectionType sectionType) {
-		return menu.getIterator();
->>>>>>> refs/remotes/origin/master
 	}
 
 	public boolean isMealAvailable(int mealNo, SectionType sectionType) {
