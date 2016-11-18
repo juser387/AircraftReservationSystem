@@ -78,7 +78,7 @@ public class Parser {
 			infoMessage("Only seats in economy class are available");
 			selectedSection = SectionType.ECONOMY;
 		} else {
-			errorMessage("No seats available");
+			errorMessage("\tNO AVAILABLE SEATS!\n\tThere is another flight later on. Would you like book ?");
 			return;
 		}
 
@@ -105,10 +105,10 @@ public class Parser {
 		// Output reservation information
 		if (selectedMeal != 0) {
 			infoMessage("Seat %d reserved for %s. Meal %d ordered.", selectedSeat, passengerName, selectedMeal);
-			infoMessage("Total price %d", logicIF.getSeatPrice(selectedSeat) + logicIF.getMealPrice(selectedMeal));
+			infoMessage("Total price %.2f", logicIF.getSeatPrice(selectedSeat) + logicIF.getMealPrice(selectedMeal)); 
 		} else {
 			infoMessage("Seat %d reserved for %s. No meal ordered.", selectedSeat, passengerName);
-			infoMessage("Total price %d", logicIF.getSeatPrice(selectedSeat));
+			infoMessage("Total price %.2f", logicIF.getSeatPrice(selectedSeat));
 		}
 
 		// Confirm reservation
@@ -208,7 +208,7 @@ public class Parser {
 	// Utilities for outputting Meal and Seat items
 	// ------------------------------------------------------------------------
 	private void displayFreeSeatList(SectionType sectionType) {
-		Iterator<Seat> iter = logicIF.getAvailableSeats();
+		Iterator<Seat> iter = logicIF.getSeats();
 		System.out.print("Available seats: ");
 		boolean isAnySeatsOutput = false;
 		
@@ -227,7 +227,7 @@ public class Parser {
 	}
 
 	private boolean displayMeals(SectionType sectionType) {
-		Iterator<Meal> iter2 = logicIF.getAvailableMeals();
+		Iterator<Meal> iter2 = logicIF.getMeals();
 		boolean anyMealsFound = false;
 
 		while (iter2.hasNext()) {
@@ -251,7 +251,7 @@ public class Parser {
 		appendString(sb, "Done", 30);
 		sb.append(" ");
 		appendString(sb, "Price", 8);
-		System.out.println(sb.toString());
+		System.out.println(sb);
 	}
 
 	private void displayMeal(Meal meal) {
@@ -260,9 +260,8 @@ public class Parser {
 		sb.append(" ");
 		appendString(sb, meal.getMealDescription(), 30);
 		sb.append(" ");
-		appendString(sb, String.valueOf(meal.getMealPrice()), 8);
-		System.out.println(sb.toString());
-		// TODO: review formatting of the float number
+		appendString(sb, String.format("%.2f", meal.getMealPrice()), 8);
+		System.out.println(sb);
 	}
 
 	// ------------------------------------------------------------------------

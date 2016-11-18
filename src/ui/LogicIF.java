@@ -20,7 +20,7 @@ public class LogicIF {
 	private Menu menu = new Menu();
 
 	public boolean areSeatsAvailable(SectionType sectionType) {
-		Iterator<Seat> iter = getAvailableSeats();
+		Iterator<Seat> iter = getSeats();
 
 		while (iter.hasNext()) {
 			Seat seat = iter.next();
@@ -31,7 +31,7 @@ public class LogicIF {
 		return false;
 	}
 
-	public Iterator<Seat> getAvailableSeats() { // TODO: Rename this operation
+	public Iterator<Seat> getSeats() {
 		return aircraft.getIterator();
 	}
 
@@ -44,13 +44,12 @@ public class LogicIF {
 		}
 	}
 
-	// TODO: change return type to double
-	public int getSeatPrice(int seatNo) {
+	public double getSeatPrice(int seatNo) {
 		Seat seat = aircraft.findSeat(seatNo);
-		return (int) seat.getSeatPrice(); 
+		return seat.getSeatPrice(); 
 	}
 
-	public Iterator<Meal> getAvailableMeals() {  // TODO: Rename this method
+	public Iterator<Meal> getMeals() {
 		return menu.getIterator();
 	}
 
@@ -75,7 +74,7 @@ public class LogicIF {
 	// TODO: Retrieve data from the business model
 	// TODO: change return type to double
 	public int getTotalRevenue() {
-		return 10_000; 
+		return 10_000;
 	}
 
 	// TODO: Retrieve data from the business model
