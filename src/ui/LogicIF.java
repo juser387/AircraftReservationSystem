@@ -38,11 +38,11 @@ public class LogicIF {
 	private Menu menu = new Menu();
 
 	public boolean areSeatsAvailable(SectionType sectionType) {
-		return true; // TODO:
+		return true;  // TODO:
 	}
 
-	public Iterator<Integer> getAvailableSeats(SectionType sectionType) {
-		return aircraftSeats.iterator(); // TODO: Requires rethink
+	public Iterator<Seat> getAvailableSeats() {  // TODO: rename this operation
+		return aircraft.getIterator();
 	}
 
 	public boolean isSeatAvailable(int seatNo, SectionType sectionType) {
@@ -59,8 +59,8 @@ public class LogicIF {
 		return (int) seat.getSeatPrice(); // TODO: revisit cast
 	}
 
-	public Iterator<Meal> getAvailableMeals(SectionType sectionType) {
-		return menu.getIterator();
+	public Iterator<Meal> getAvailableMeals() {
+		return menu.getIterator(); 
 	}
 
 	public boolean isMealAvailable(int mealNo, SectionType sectionType) {

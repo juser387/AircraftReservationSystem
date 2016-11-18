@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 import model.Meal;
+import model.Seat;
 import utilities.SectionType;
 
 public class Parser {
@@ -80,15 +81,7 @@ public class Parser {
 		}
 
 		// List available seats
-		Iterator<Integer> iter1 = logicIF.getAvailableSeats(selectedSection);
-		System.out.print("Available seats: ");
-
-		while (iter1.hasNext()) {
-			System.out.print(iter1.next());
-			System.out.print(", ");
-		}
-		System.out.println();
-		// TODO: Clean up the print-out
+		displayFreeSeatList(selectedSection);
 
 		// Get seat
 		selectedSeat = parseSeatNo("Enter seat no (0 = cancel reservation): ", selectedSection);
@@ -99,21 +92,15 @@ public class Parser {
 		// Get passenger name
 		passengerName = readLine("Enter passenger name: ");
 
-		// List meals
-		Iterator<Meal> iter2 = logicIF.getAvailableMeals(selectedSection); // TODO:
-																			// review
-		infoMessage("Available meals:");
-		while (iter2.hasNext()) {
-			Meal meal = iter2.next();
-			if (meal.getSectionType() == selectedSection) {
-				infoMessage(String.valueOf(meal.getMealID()) + " " + meal.getMealDescription() + " price: "
-						+ String.valueOf(meal.getMealPrice()));
-			}
+		// List meals and get meal no
+		if (displayMeals(selectedSection)) {
+			selectedMeal = parseMealNo("Enter meal no (0 = no meal): ", selectedSection);
+		} else {
+			infoMessage("No meals available");
+			selectedMeal = 0;
 		}
 
-		// Get meal and compute price
-		selectedMeal = parseMealNo("Enter meal no (0 = no meal): ", selectedSection);
-
+		// Output reservation information
 		if (selectedMeal != 0) {
 			infoMessage("Seat %d reserved for %s. Meal %d ordered.", selectedSeat, passengerName, selectedMeal);
 			infoMessage("Total price %d", logicIF.getSeatPrice(selectedSeat) + logicIF.getMealPrice(selectedMeal));
@@ -213,8 +200,80 @@ public class Parser {
 	}
 
 	// ------------------------------------------------------------------------
+	// Utilities for outputting Meal and Seat items
+	// ------------------------------------------------------------------------
+	private void displayFreeSeatList(SectionType sectionType) {
+		Iterator<Seat> iter = logicIF.getAvailableSeats();
+		System.out.print("Available seats: ");
+		boolean isAnySeatsOutput = false;
+		
+		while (iter.hasNext()) {
+			Seat seat = iter.next();
+			if (seat.getSectionType() == sectionType && seat.getPassenger() == null) {
+				if (isAnySeatsOutput) {
+					System.out.print(", ");
+				} else {
+					isAnySeatsOutput = true;
+				}
+				System.out.print(seat.getSeatID());
+			}
+		}
+		System.out.println();
+		// TODO: Clean up the print-out
+
+	}
+
+	private boolean displayMeals(SectionType sectionType) {
+		Iterator<Meal> iter2 = logicIF.getAvailableMeals();
+		boolean anyMealsFound = false;
+
+		while (iter2.hasNext()) {
+			Meal meal = iter2.next();
+			if (meal.getSectionType() == sectionType) {
+				if (!anyMealsFound) {
+					displayMealHeader();
+					anyMealsFound = true;
+				}
+				displayMeal(meal);
+			}
+		}
+
+		return anyMealsFound;
+	}
+
+	private void displayMealHeader() {
+		StringBuffer sb = new StringBuffer();
+		appendString(sb, "No", 4);
+		sb.append(" ");
+		appendString(sb, "Done", 30);
+		sb.append(" ");
+		appendString(sb, "Price", 8);
+		System.out.println(sb.toString());
+	}
+
+	private void displayMeal(Meal meal) {
+		StringBuffer sb = new StringBuffer();
+		appendString(sb, String.valueOf(meal.getMealID()), 4);
+		sb.append(" ");
+		appendString(sb, meal.getMealDescription(), 30);
+		sb.append(" ");
+		appendString(sb, String.valueOf(meal.getMealPrice()), 8);
+		System.out.println(sb.toString());
+	}
+
+	// ------------------------------------------------------------------------
 	// Utilities
 	// ------------------------------------------------------------------------
+	public static void appendString(StringBuffer sb, String s, int length) {
+		for (int i = 0; i < length; i++) {
+			if (i < s.length()) {
+				sb.append(s.charAt(i));
+			} else {
+				sb.append(' ');
+			}
+		}
+	}
+
 	private void infoMessage(String format, Object... args) {
 		System.out.println(String.format(format, args));
 	}
