@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import utilities.SectionType;
 
 /**
  * Class description field
@@ -21,13 +22,13 @@ public class Menu {
 	 * 
 	 *********************************************************************/
 	public Menu() {
-		
+
 		mealList.add(new Meal(1, 95.0, "Meatballs", SectionType.FIRST));
 		mealList.add(new Meal(3, 72.0, "Steak", SectionType.FIRST));
 		mealList.add(new Meal(5, 56.0, "Hamburger", SectionType.ECONOMY));
 		mealList.add(new Meal(9, 34.0, "Sandwich", SectionType.ECONOMY));
 	}
-	
+
 	public Iterator<Meal> getIterator() {
 		return mealList.iterator();
 	}
@@ -39,6 +40,5 @@ public class Menu {
 		}
 		return null;
 	}
-
 
 }

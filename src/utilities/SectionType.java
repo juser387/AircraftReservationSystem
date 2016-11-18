@@ -1,4 +1,4 @@
-package model;
+package utilities;
 
 public enum SectionType {
 	FIRST, ECONOMY
