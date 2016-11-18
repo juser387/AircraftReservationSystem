@@ -6,17 +6,11 @@ import java.util.Scanner;
 import model.Meal;
 import model.Seat;
 import utilities.SectionType;
+import utilities.Constants;
 
 public class Parser {
 	private Scanner scanner = new Scanner(System.in);
 	private LogicIF logicIF = new LogicIF();
-
-	private static final String HELP_CMD = "HELP";
-	private static final String BOOK_CMD = "BOOK";
-	private static final String LIST_CMD = "LIST";
-	private static final String SUM_CMD = "SUMMARY";
-	private static final String CLEAR_CMD = "CLEAR";
-	private static final String EXIT_CMD = "EXIT";
 
 	// ------------------------------------------------------------------------
 	// parse() - main parsing loop
@@ -28,22 +22,22 @@ public class Parser {
 			String command = readLine("Enter a command: ");
 
 			switch (command.toUpperCase()) {
-			case HELP_CMD:
+			case Constants.HELP_CMD:
 				parseHelp();
 				break;
-			case BOOK_CMD:
+			case Constants.BOOK_CMD:
 				parseBook();
 				break;
-			case LIST_CMD:
+			case Constants.LIST_CMD:
 				parseList();
 				break;
-			case SUM_CMD:
+			case Constants.SUM_CMD:
 				parseSum();
 				break;
-			case CLEAR_CMD:
+			case Constants.CLEAR_CMD:
 				parseClear();
 				break;
-			case EXIT_CMD:
+			case Constants.EXIT_CMD:
 				doContinue = false;
 				break;
 			default:
@@ -57,10 +51,11 @@ public class Parser {
 	// ------------------------------------------------------------------------
 	private void parseHelp() {
 		infoMessage("Available commands are:");
-		infoMessage("  %s", BOOK_CMD);
-		infoMessage("  %s", SUM_CMD);
-		infoMessage("  %s", CLEAR_CMD);
-		infoMessage("  %s", EXIT_CMD);
+		infoMessage("  %s", Constants.BOOK_CMD);
+		infoMessage("  %s", Constants.LIST_CMD);
+		infoMessage("  %s", Constants.SUM_CMD);
+		infoMessage("  %s", Constants.CLEAR_CMD);
+		infoMessage("  %s", Constants.EXIT_CMD);
 	}
 
 	private void parseBook() {
@@ -82,7 +77,7 @@ public class Parser {
 			infoMessage("Only seats in economy class are available");
 			selectedSection = SectionType.ECONOMY;
 		} else {
-			errorMessage("\tNO AVAILABLE SEATS!\n\tThere is another flight later on. Would you like book ?");
+			errorMessage("\tNO AVAILABLE SEATS!\n\tThere is another flight later on. Would you like rebook ?");
 			return;
 		}
 
@@ -244,33 +239,34 @@ public class Parser {
 
 	private void displaySeatHeader() {
 		StringBuffer sb = new StringBuffer();
-		appendString(sb, "Seat", 4);
+		appendString(sb, "Seat", 8);
 		sb.append(" ");
-		appendString(sb, "Section", 8);
+		appendString(sb, "Section", 10);
 		sb.append(" ");
-		appendString(sb, "Price", 10);
+		appendString(sb, "Price", 15);
 		sb.append(" ");
 		appendString(sb, "Passenger name", 30);
 		sb.append(" ");
-		appendString(sb, "Meal", 8);
+		appendString(sb, "Meal no", 8);
 		System.out.println(sb);
 	}
 
 	private void displaySeat(Seat seat) {
 		StringBuffer sb = new StringBuffer();
-		appendString(sb, String.valueOf(seat.getSeatID()), 4);
-		// TODO: values are left aligned, should be right-aligned
+		appendString(sb, String.format("%4d", seat.getSeatID()), 8);
+
 		sb.append(" ");
-		appendString(sb, seat.getSectionType().toString(), 8);
+		appendString(sb, seat.getSectionType().toString(), 10);
 		sb.append(" ");
-		appendString(sb, String.format("%.2f", seat.getSeatPrice()), 10);
-		// TODO: values are left aligned, should be right-aligned
+		appendString(sb, String.format("%8.2f", seat.getSeatPrice()), 15);
+
 		if (seat.getPassenger() != null) {
 			sb.append(" ");
 			appendString(sb, seat.getPassenger().getName(), 30);
 			sb.append(" ");
-			appendString(sb, String.valueOf(seat.getPassenger().getMealNo()), 4);
-			// TODO: Do not write zero if no meal is ordered
+
+			if (seat.getPassenger().getMealNo() != 0)
+				appendString(sb, String.format("%7d", seat.getPassenger().getMealNo()), 8);
 		}
 		System.out.println(sb);
 	}
@@ -305,11 +301,11 @@ public class Parser {
 
 	private void displayMeal(Meal meal) {
 		StringBuffer sb = new StringBuffer();
-		appendString(sb, String.valueOf(meal.getMealID()), 4);
+		appendString(sb, String.format("%2d", meal.getMealID()), 4);
 		sb.append(" ");
 		appendString(sb, meal.getMealDescription(), 30);
 		sb.append(" ");
-		appendString(sb, String.format("%.2f", meal.getMealPrice()), 10);
+		appendString(sb, String.format("%5.2f", meal.getMealPrice()), 10);
 		System.out.println(sb);
 	}
 

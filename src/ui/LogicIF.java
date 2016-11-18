@@ -20,7 +20,7 @@ public class LogicIF {
 	private Menu menu = new Menu();
 	
 	//TODO: Add support for multiple aircrafts (optional bonus assignment 1)
-
+	
 	public boolean areSeatsAvailable(SectionType sectionType) {
 		Iterator<Seat> iter = getSeats();
 
