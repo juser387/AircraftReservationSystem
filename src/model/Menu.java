@@ -24,9 +24,16 @@ public class Menu {
 	public Menu() {
 
 		mealList.add(new Meal(1, 95.0, "Meatballs", SectionType.FIRST));
-		mealList.add(new Meal(3, 72.0, "Steak", SectionType.FIRST));
-		mealList.add(new Meal(5, 56.0, "Hamburger", SectionType.ECONOMY));
-		mealList.add(new Meal(9, 34.0, "Sandwich", SectionType.ECONOMY));
+		mealList.add(new Meal(2, 72.0, "Steak", SectionType.FIRST));
+		mealList.add(new Meal(3, 65.0, "Tacos", SectionType.FIRST));
+		mealList.add(new Meal(4, 48.0, "Lux Wrap", SectionType.FIRST));
+		mealList.add(new Meal(5, 55.0, "Pasta", SectionType.FIRST));
+
+		mealList.add(new Meal(1, 56.0, "Hamburger", SectionType.ECONOMY));
+		mealList.add(new Meal(2, 34.0, "Sandwich", SectionType.ECONOMY));
+		mealList.add(new Meal(3, 32.0, "Chili Toast", SectionType.ECONOMY));
+		mealList.add(new Meal(4, 47.0, "Chicken Nuggets", SectionType.ECONOMY));
+		mealList.add(new Meal(5, 42.0, "Light Salad", SectionType.ECONOMY));
 	}
 
 	public Iterator<Meal> getIterator() {
@@ -40,5 +47,4 @@ public class Menu {
 		}
 		return null;
 	}
-
 }
