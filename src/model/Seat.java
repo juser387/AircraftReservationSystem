@@ -59,11 +59,6 @@ public class Seat extends Object {
 		return sectionType;
 	}
 
-	public int getAvailableSeats() {
-
-		return 0;
-	}
-
 	public void setPassenger(Passenger newPassenger) {
 		passenger = newPassenger;
 	}
