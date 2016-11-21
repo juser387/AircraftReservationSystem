@@ -17,10 +17,27 @@ public class LogicIF {
 	 * =======================================================================
 	 */
 	private Aircraft aircraft = new Aircraft(1);
+	// TODO: Replace with fleet
 	private Menu menu = new Menu();
-	
-	//TODO: Add support for multiple aircrafts (optional bonus assignment 1)
-	
+
+	public boolean isAircraftAvailable(int aircraftNo) {
+		// TODO: Add support for multiple aircrafts (optional bonus assignment
+		// 1)
+		return true;
+	}
+
+	public void departAircraft(int aircraftNo) {
+		// TODO: Implement depart aircraft
+	}
+
+	public void addAircraft(int aircraftNo) {
+		// TODO: Implement add aircraft
+	}
+
+	public void removeAircraft(int aircraftNo) {
+		// TODO: Implement remove aircraft
+	}
+
 	public boolean areSeatsAvailable(SectionType sectionType) {
 		Iterator<Seat> iter = getSeats();
 
@@ -73,7 +90,13 @@ public class LogicIF {
 		}
 	}
 
+	public double getTotalRevenue(int aircraftNo) {
+		//TODO: implement getTotalRevenue(int aircraftNo)
+		return 0.0;
+	}
+
 	public double getTotalRevenue() {
+		//TODO: implement getTotalRevenue for all aircraft (move code below to method above)
 		Iterator<Seat> iter = aircraft.getIterator();
 		double sum = 0.0;
 
@@ -92,7 +115,13 @@ public class LogicIF {
 		return sum;
 	}
 
+	public double getTotalProfit(int aircraftNo) {
+		//TODO: implement getTotalProfit(int aircraftNo)
+		return 0.0;
+	}
+
 	public double getTotalProfit() {
+		//TODO: implement getTotalRevenue for all aircraft (move code below to method above)
 		return getTotalRevenue() * 0.3;
 	}
 
