@@ -13,7 +13,7 @@ import java.util.Iterator;
 
 public class Aircraft {
 
-	private static ArrayList<Seat> seatList;
+	private ArrayList<Seat> seatList;
 
 	private int id;
 

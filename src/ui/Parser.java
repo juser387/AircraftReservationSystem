@@ -13,12 +13,6 @@ public class Parser {
 	private LogicIF logicIF = new LogicIF();
 	private int selectedAircraft = 1;
 
-	public static final String SELECT_CMD = "SELECT";
-	public static final String DEPART_CMD = "DEPART";
-	public static final String ADD_AIRCRAFT_CMD = "ADD AIRCRAFT";
-	public static final String REMOVE_AIRCRAFT_CMD = "REMOVE AIRCRAFT";
-	// TODO: move back the other commands here
-
 	// ------------------------------------------------------------------------
 	// parse() - main parsing loop
 	// ------------------------------------------------------------------------
@@ -44,16 +38,16 @@ public class Parser {
 			case Constants.CLEAR_CMD:
 				parseClear();
 				break;
-			case SELECT_CMD:
+			case Constants.SELECT_CMD:
 				parseSelect();
 				break;
-			case DEPART_CMD:
+			case Constants.DEPART_CMD:
 				parseDepart();
 				break;
-			case ADD_AIRCRAFT_CMD:
+			case Constants.ADD_AIRCRAFT_CMD:
 				parseAddAircraft();
 				break;
-			case REMOVE_AIRCRAFT_CMD:
+			case Constants.REMOVE_AIRCRAFT_CMD:
 				parseRemoveAircraft();
 				break;
 			case Constants.EXIT_CMD:
@@ -74,10 +68,10 @@ public class Parser {
 		infoMessage("  %s", Constants.LIST_CMD);
 		infoMessage("  %s", Constants.SUM_CMD);
 		infoMessage("  %s", Constants.CLEAR_CMD);
-		infoMessage("  %s", SELECT_CMD);
-		infoMessage("  %s", DEPART_CMD);
-		infoMessage("  %s", ADD_AIRCRAFT_CMD);
-		infoMessage("  %s", REMOVE_AIRCRAFT_CMD);
+		infoMessage("  %s", Constants.SELECT_CMD);
+		infoMessage("  %s", Constants.DEPART_CMD);
+		infoMessage("  %s", Constants.ADD_AIRCRAFT_CMD);
+		infoMessage("  %s", Constants.REMOVE_AIRCRAFT_CMD);
 		infoMessage("  %s", Constants.EXIT_CMD);
 	}
 

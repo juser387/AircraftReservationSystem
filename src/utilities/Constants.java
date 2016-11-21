@@ -20,5 +20,9 @@ public class Constants {
 	public static final String LIST_CMD = "LIST";
 	public static final String SUM_CMD = "SUMMARY";
 	public static final String CLEAR_CMD = "CLEAR";
+	public static final String SELECT_CMD = "SELECT";
+	public static final String DEPART_CMD = "DEPART";
+	public static final String ADD_AIRCRAFT_CMD = "ADD AIRCRAFT";
+	public static final String REMOVE_AIRCRAFT_CMD = "REMOVE AIRCRAFT";
 	public static final String EXIT_CMD = "EXIT";
 }
