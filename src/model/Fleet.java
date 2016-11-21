@@ -12,7 +12,6 @@ public class Fleet {
 
 	public Fleet() {
 	}
-
 	public Iterator<Aircraft> getIterator() {
 		return aircraftList.iterator();
 	}
