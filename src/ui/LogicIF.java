@@ -16,6 +16,7 @@ public class LogicIF {
 	 * References to the business model
 	 * =======================================================================
 	 */
+	
 	private Aircraft aircraft = new Aircraft(1);
 	private Menu menu = new Menu();
 	
