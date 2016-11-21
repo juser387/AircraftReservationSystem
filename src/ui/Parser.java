@@ -230,7 +230,7 @@ public class Parser {
 
 			try {
 				int aircraftNo = Integer.parseInt(aircraftString);
-				if (aircraftNo == 0 || logicIF.isAircraftAvailable(aircraftNo)) {
+				if (aircraftNo == 0 || !logicIF.isAircraftAvailable(aircraftNo)) {
 					return aircraftNo;
 				} else {
 					errorMessage("Error: aircraft %d is already defined", aircraftNo);
