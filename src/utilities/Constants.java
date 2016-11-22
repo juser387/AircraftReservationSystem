@@ -11,8 +11,10 @@ public class Constants {
 	// Numerical constants
 	public final static double PRICE_FIRST = 20_000.0;
 	public final static double PRICE_ECONOMY = 5_000.0;
-	public final static int NO_OF_SEATS = 10;
-	public final static int NO_OF_FIRST_CLASS_SEATS = 5;
+	public final static int JUMBO_JET_NO_OF_SEATS = 10;
+	public final static int JUMBO_JET_NO_OF_FIRST_CLASS_SEATS = 5;
+	public final static int BUSINESS_JET_NO_OF_SEATS = 6;
+	public final static int BUSINESS_JET_NO_OF_FIRST_CLASS_SEATS = 2;
 	
 	// String constants
 	public static final String HELP_CMD = "HELP";
@@ -25,4 +27,8 @@ public class Constants {
 	public static final String ADD_AIRCRAFT_CMD = "ADD AIRCRAFT";
 	public static final String REMOVE_AIRCRAFT_CMD = "REMOVE AIRCRAFT";
 	public static final String EXIT_CMD = "EXIT";
+	
+	public static final String BUSINESS_JET = "BUSINESS JET";
+	public static final String JUMBO_JET = "JUMBO JET";
+	
 }
