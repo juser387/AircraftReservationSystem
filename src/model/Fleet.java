@@ -2,16 +2,11 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import utilities.SectionType;
-import utilities.Constants;
-
 
 public class Fleet {
 
 	private ArrayList<Aircraft> aircraftList = new ArrayList<>();
 
-	public Fleet() {
-	}
 	public Iterator<Aircraft> getIterator() {
 		return aircraftList.iterator();
 	}
@@ -24,17 +19,14 @@ public class Fleet {
 		return null;
 	}
 
-	public void addAircraft(ArrayList<Aircraft> aircraft) {
+	public void addAircraft(Aircraft aircraft) {
+		aircraftList.add(aircraft);
+	}
 
-		//TODO: update the body
-//		while (aircraft.size() < Constants.NO_OF_SEATS) {
-
-//			if (aircraft.size() < Constants.NO_OF_FIRST_CLASS_SEATS) {
-//				aircraftList.add(new Aircraft(aircraft.size(), Constants.PRICE_FIRST, SectionType.FIRST));
-//			} else {
-//				aircraftList.add(new Aircraft(aircraft.size(), Constants.PRICE_ECONOMY, SectionType.ECONOMY));
-//			}
-//		}
-
+	public void removeAircraft(int aircraftNo) {
+		Aircraft aircraft = findAircraft(aircraftNo);
+		if (aircraft != null) {
+			aircraftList.remove(aircraft);
+		}
 	}
 }
