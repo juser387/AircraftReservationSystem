@@ -3,10 +3,15 @@ package ui;
 import java.util.Iterator;
 
 import model.Aircraft;
+import model.BusinessJet;
+import model.Fleet;
+import model.JumboJet;
 import model.Meal;
 import model.Menu;
 import model.Passenger;
 import model.Seat;
+import utilities.AircraftModel;
+import utilities.Constants;
 import utilities.SectionType;
 
 public class LogicIF {
@@ -16,31 +21,46 @@ public class LogicIF {
 	 * References to the business model
 	 * =======================================================================
 	 */
-	
-	private Aircraft aircraft = new Aircraft(1);
-	// TODO: Replace with fleet
+
+	private Fleet fleet = new Fleet();
 	private Menu menu = new Menu();
 
+	// The constructor initialises the aircraft fleet with one initial aircraft.
+	LogicIF() {
+		fleet.addAircraft(new JumboJet(1));
+	}
+
 	public boolean isAircraftAvailable(int aircraftNo) {
-		// TODO: Add support for multiple aircrafts (optional bonus assignment
-		// 1)
-		return true;
+		return fleet.findAircraft(aircraftNo) != null;
 	}
 
-	public void departAircraft(int aircraftNo) {
-		// TODO: Implement depart aircraft
-	}
+	public void addAircraft(int aircraftNo, AircraftModel aircraftModel) {
+		Aircraft newAircraft;
 
-	public void addAircraft(int aircraftNo) {
-		// TODO: Implement add aircraft
+		switch (aircraftModel) {
+		case JUMBO_JET:
+			newAircraft = new JumboJet(aircraftNo);
+			break;
+		case BUSINESS_JET:
+			newAircraft = new BusinessJet(aircraftNo);
+			break;
+		default:
+			return;
+		}
+
+		fleet.addAircraft(newAircraft);
 	}
 
 	public void removeAircraft(int aircraftNo) {
-		// TODO: Implement remove aircraft
+		fleet.removeAircraft(aircraftNo);
 	}
 
-	public boolean areSeatsAvailable(SectionType sectionType) {
-		Iterator<Seat> iter = getSeats();
+	public void departAircraft(int aircraftNo) {
+		fleet.findAircraft(aircraftNo).depart();
+	}
+
+	public boolean areSeatsAvailable(int aircraftNo, SectionType sectionType) {
+		Iterator<Seat> iter = getSeats(aircraftNo);
 
 		while (iter.hasNext()) {
 			Seat seat = iter.next();
@@ -51,12 +71,12 @@ public class LogicIF {
 		return false;
 	}
 
-	public Iterator<Seat> getSeats() {
-		return aircraft.getIterator();
+	public Iterator<Seat> getSeats(int aircraftNo) {
+		return fleet.findAircraft(aircraftNo).getIterator();
 	}
 
-	public boolean isSeatAvailable(int seatNo, SectionType sectionType) {
-		Seat seat = aircraft.findSeat(seatNo);
+	public boolean isSeatAvailable(int aircraftNo, int seatNo, SectionType sectionType) {
+		Seat seat = fleet.findAircraft(aircraftNo).findSeat(seatNo);
 		if (seat != null) {
 			return seat.getPassenger() == null && seat.getSectionType() == sectionType;
 		} else {
@@ -64,8 +84,8 @@ public class LogicIF {
 		}
 	}
 
-	public double getSeatPrice(int seatNo) {
-		Seat seat = aircraft.findSeat(seatNo);
+	public double getSeatPrice(int aircraftNo, int seatNo) {
+		Seat seat = fleet.findAircraft(aircraftNo).findSeat(seatNo);
 		return seat.getSeatPrice();
 	}
 
@@ -91,49 +111,65 @@ public class LogicIF {
 		}
 	}
 
-	public double getTotalRevenue(int aircraftNo) {
-		//TODO: implement getTotalRevenue(int aircraftNo)
-		return 0.0;
-	}
-
-	public double getTotalRevenue() {
-		//TODO: implement getTotalRevenue for all aircraft (move code below to method above)
+	private double getTotalRevenue(Aircraft aircraft) {
 		Iterator<Seat> iter = aircraft.getIterator();
-		double sum = 0.0;
+		double totalRevenue = 0.0;
 
 		while (iter.hasNext()) {
 			Seat seat = iter.next();
 			if (seat.getPassenger() != null) {
-				sum += seat.getSeatPrice();
+				totalRevenue += seat.getSeatPrice();
 
 				Meal meal = menu.findMeal(seat.getPassenger().getMealNo());
 				if (meal != null) {
-					sum += meal.getMealPrice();
+					totalRevenue += meal.getMealPrice();
 				}
 			}
 		}
 
-		return sum;
+		return totalRevenue;
+	}
+
+	public double getTotalRevenue(int aircraftNo) {
+		return getTotalRevenue(fleet.findAircraft(aircraftNo));
+	}
+
+	public double getTotalRevenue() {
+		Iterator<Aircraft> iter = fleet.getIterator();
+		double totalRevenue = 0.0;
+
+		while (iter.hasNext()) {
+			totalRevenue += getTotalRevenue(iter.next());
+		}
+		return totalRevenue;
+	}
+
+	private double getTotalProfit(Aircraft aircraft) {
+		return getTotalRevenue(aircraft) * 0.3;
 	}
 
 	public double getTotalProfit(int aircraftNo) {
-		//TODO: implement getTotalProfit(int aircraftNo)
-		return 0.0;
+		return getTotalProfit(fleet.findAircraft(aircraftNo));
 	}
 
 	public double getTotalProfit() {
-		//TODO: implement getTotalRevenue for all aircraft (move code below to method above)
-		return getTotalRevenue() * 0.3;
+		Iterator<Aircraft> iter = fleet.getIterator();
+		double totalProfit = 0.0;
+		
+		while (iter.hasNext()) {
+			totalProfit += getTotalProfit(iter.next());
+		}
+
+		return totalProfit;
 	}
 
-	public void makeReservation(int seatNo, String passengerName, int mealNo) {
-		Passenger passenger = new Passenger(passengerName, mealNo);
-		Seat seat = aircraft.findSeat(seatNo);
-		seat.setPassenger(passenger);
+	public void makeReservation(int aircraftNo, int seatNo, String passengerName, int mealNo) {
+		Seat seat = fleet.findAircraft(aircraftNo).findSeat(seatNo);
+		seat.setPassenger(new Passenger(passengerName, mealNo));
 	}
 
-	public void clearAllReservations() {
-		aircraft.clearAllSeats();
+	public void clearAllReservations(int aircraftNo) {
+		fleet.findAircraft(aircraftNo).clearAllSeats();
 	}
 
 }

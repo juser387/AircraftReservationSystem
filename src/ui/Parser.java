@@ -3,15 +3,17 @@ package ui;
 import java.util.Iterator;
 import java.util.Scanner;
 
+import model.Fleet;
 import model.Meal;
 import model.Seat;
 import utilities.SectionType;
+import utilities.AircraftModel;
 import utilities.Constants;
 
 public class Parser {
 	private Scanner scanner = new Scanner(System.in);
 	private LogicIF logicIF = new LogicIF();
-	private int selectedAircraft = 1;
+	private int selectedAircraftNo = 1;
 
 	// ------------------------------------------------------------------------
 	// parse() - main parsing loop
@@ -20,41 +22,48 @@ public class Parser {
 		boolean doContinue = true;
 
 		while (doContinue) {
-			String command = readLine("Enter a command: ");
+			try {
+				String command = readLine("Enter a command: ");
 
-			switch (command.toUpperCase()) {
-			case Constants.HELP_CMD:
-				parseHelp();
-				break;
-			case Constants.BOOK_CMD:
-				parseBook();
-				break;
-			case Constants.LIST_CMD:
-				parseList();
-				break;
-			case Constants.SUM_CMD:
-				parseSum();
-				break;
-			case Constants.CLEAR_CMD:
-				parseClear();
-				break;
-			case Constants.SELECT_CMD:
-				parseSelect();
-				break;
-			case Constants.DEPART_CMD:
-				parseDepart();
-				break;
-			case Constants.ADD_AIRCRAFT_CMD:
-				parseAddAircraft();
-				break;
-			case Constants.REMOVE_AIRCRAFT_CMD:
-				parseRemoveAircraft();
-				break;
-			case Constants.EXIT_CMD:
-				doContinue = false;
-				break;
-			default:
-				System.out.println("Invalid command " + command);
+				switch (command.toUpperCase()) {
+				case Constants.HELP_CMD:
+					parseHelp();
+					break;
+				case Constants.BOOK_CMD:
+					parseBook();
+					break;
+				case Constants.LIST_CMD:
+					parseList();
+					break;
+				case Constants.SUM_CMD:
+					parseSum();
+					break;
+				case Constants.CLEAR_CMD:
+					parseClear();
+					break;
+				case Constants.SELECT_CMD:
+					parseSelect();
+					break;
+				case Constants.DEPART_CMD:
+					parseDepart();
+					break;
+				case Constants.ADD_AIRCRAFT_CMD:
+					parseAddAircraft();
+					break;
+				case Constants.REMOVE_AIRCRAFT_CMD:
+					parseRemoveAircraft();
+					break;
+				case Constants.EXIT_CMD:
+					doContinue = false;
+					break;
+				case "THROW":
+					throw new NullPointerException();
+					// For testing purposes only
+				default:
+					errorMessage("Invalid command " + command);
+				}
+			} catch (RuntimeException e) {
+				errorMessage("Internal error - exception %s caught", e);
 			}
 		}
 	}
@@ -76,8 +85,13 @@ public class Parser {
 	}
 
 	private void parseBook() {
-		boolean isFirstAvailable = logicIF.areSeatsAvailable(SectionType.FIRST);
-		boolean isEconomyAvailable = logicIF.areSeatsAvailable(SectionType.ECONOMY);
+		if (!logicIF.isAircraftAvailable(selectedAircraftNo)) {
+			errorMessage("Selected aircraft %d is not available", selectedAircraftNo);
+			return;
+		}
+
+		boolean isFirstAvailable = logicIF.areSeatsAvailable(selectedAircraftNo, SectionType.FIRST);
+		boolean isEconomyAvailable = logicIF.areSeatsAvailable(selectedAircraftNo, SectionType.ECONOMY);
 
 		String passengerName;
 		SectionType selectedSection;
@@ -99,10 +113,10 @@ public class Parser {
 		}
 
 		// List available seats
-		displayFreeSeatList(selectedSection);
+		displayFreeSeatList(selectedAircraftNo, selectedSection);
 
 		// Get seat
-		selectedSeat = parseSeatNo("Enter seat no (0 = cancel reservation): ", selectedSection);
+		selectedSeat = parseSeatNo("Enter seat no (0 = cancel reservation): ", selectedAircraftNo, selectedSection);
 		if (selectedSeat == 0) {
 			return;
 		}
@@ -120,18 +134,26 @@ public class Parser {
 
 		// Output reservation information
 		if (selectedMeal != 0) {
-			infoMessage("Seat %d in aircraft %d reserved for %s. Meal %d ordered.", selectedSeat, selectedAircraft,
-					passengerName, selectedMeal);
-			infoMessage("Total price %.2f", logicIF.getSeatPrice(selectedSeat) + logicIF.getMealPrice(selectedMeal));
+			infoMessage("Seat %d in aircraft %d reserved for %s. Meal %d ordered.", //
+					selectedSeat, //
+					selectedAircraftNo, //
+					passengerName, //
+					selectedMeal);
+			infoMessage("Total price %.2f", //
+					logicIF.getSeatPrice(selectedAircraftNo, selectedSeat) + logicIF.getMealPrice(selectedMeal));
 		} else {
-			infoMessage("Seat %d reserved for %s. No meal ordered.", selectedSeat, selectedAircraft, passengerName);
-			infoMessage("Total price %.2f", logicIF.getSeatPrice(selectedSeat));
+			infoMessage("Seat %d reserved for %s. No meal ordered.", //
+					selectedSeat, //
+					selectedAircraftNo, //
+					passengerName);
+			infoMessage("Total price %.2f", //
+					logicIF.getSeatPrice(selectedAircraftNo, selectedSeat));
 		}
 
 		// Confirm reservation
 		if (parseConfirm("Confirm reservation (y/n): ")) {
-			logicIF.makeReservation(selectedSeat, passengerName, selectedMeal);
-			infoMessage("Reservation made. Booking number %d.", selectedSeat);
+			logicIF.makeReservation(selectedAircraftNo, selectedSeat, passengerName, selectedMeal);
+			infoMessage("Reservation made. Booking number %d-%d.", selectedAircraftNo, selectedSeat);
 		} else {
 			infoMessage("Cancelled. No reservation made.");
 		}
@@ -140,23 +162,33 @@ public class Parser {
 	// TODO: Implement REBOOK command
 
 	private void parseList() {
-		displaySeats();
+		if (!logicIF.isAircraftAvailable(selectedAircraftNo)) {
+			errorMessage("Selected aircraft %d is not available", selectedAircraftNo);
+			return;
+		}
+
+		displaySeats(selectedAircraftNo);
 	}
 
 	private void parseSum() {
 		int forAircraft = parseAircraftNo("Enter aircraft no (0 = all): ");
 		if (forAircraft != 0) {
-			infoMessage("Total revenue for aircraft %d: %.2f", forAircraft, logicIF.getTotalRevenue());
-			infoMessage("Total profit for aircraft %d: %.2f", forAircraft, logicIF.getTotalProfit());
+			infoMessage("Total revenue for aircraft %d: %.2f", forAircraft, logicIF.getTotalRevenue(forAircraft));
+			infoMessage("Total profit for aircraft %d: %.2f", forAircraft, logicIF.getTotalProfit(forAircraft));
 		} else {
-			infoMessage("Total revenue for all aircrafts: %.2f", logicIF.getTotalRevenue(forAircraft));
-			infoMessage("Total profit for all aircrafts: %.2f", logicIF.getTotalProfit(forAircraft));
+			infoMessage("Total revenue for all aircrafts: %.2f", logicIF.getTotalRevenue());
+			infoMessage("Total profit for all aircrafts: %.2f", logicIF.getTotalProfit());
 		}
 	}
 
 	private void parseClear() {
-		if (parseConfirm(String.format("Confirm clear for aircraft %d (y/n): ", selectedAircraft))) {
-			logicIF.clearAllReservations();
+		if (!logicIF.isAircraftAvailable(selectedAircraftNo)) {
+			errorMessage("Selected aircraft %d is not available", selectedAircraftNo);
+			return;
+		}
+
+		if (parseConfirm(String.format("Confirm clear for aircraft %d (y/n): ", selectedAircraftNo))) {
+			logicIF.clearAllReservations(selectedAircraftNo);
 			infoMessage("All reservations cleared");
 		} else {
 			infoMessage("Cancelled. No changes made.");
@@ -164,33 +196,37 @@ public class Parser {
 	}
 
 	private void parseSelect() {
-		int newlySelectedAircraft = parseAircraftNo("Enter aircraft no (0 = cancel): ");
-		if (newlySelectedAircraft == 0) {
+		int newAircraftNo = parseAircraftNo("Enter aircraft no (0 = cancel): ");
+		if (newAircraftNo == 0) {
 			return;
 		}
 
-		selectedAircraft = newlySelectedAircraft;
+		selectedAircraftNo = newAircraftNo;
 	}
 
 	private void parseDepart() {
-		if (parseConfirm(String.format("Confirm departure for aircraft %d (y/n): ", selectedAircraft))) {
-			logicIF.departAircraft(selectedAircraft);
-			infoMessage("Aircraft %d has been scheduled for take off. Bookings are disabled.", selectedAircraft);
+		if (!logicIF.isAircraftAvailable(selectedAircraftNo)) {
+			errorMessage("Selected aircraft %d is not available", selectedAircraftNo);
+			return;
+		}
+
+		if (parseConfirm(String.format("Confirm departure for aircraft %d (y/n): ", selectedAircraftNo))) {
+			logicIF.departAircraft(selectedAircraftNo);
+			infoMessage("Aircraft %d has been scheduled for take off. Bookings are disabled.", selectedAircraftNo);
 		} else {
 			infoMessage("Cancelled. No changes made.");
 		}
 	}
 
 	private void parseAddAircraft() {
-		int newAircraft = parseNewAircraftNo("Enter aircraft no (0 = cancel): ");
-		if (newAircraft == 0) {
+		int newAircraftNo = parseNewAircraftNo("Enter aircraft no (0 = cancel): ");
+		if (newAircraftNo == 0) {
 			return;
-		} 
-		
-		//TODO: Add aircraft model
-		
-		logicIF.addAircraft(newAircraft);
-		infoMessage("Aircraft %d added to the fleat", newAircraft);
+		}
+		AircraftModel aircraftModel = parseAircraftModel("Enter aircraft model (exit = cancel): ");
+
+		logicIF.addAircraft(newAircraftNo, aircraftModel);
+		infoMessage("Aircraft %d added to the fleat", newAircraftNo);
 	}
 
 	private void parseRemoveAircraft() {
@@ -242,6 +278,21 @@ public class Parser {
 		}
 	}
 
+	private AircraftModel parseAircraftModel(String prompt) {
+		while (true) {
+			String modelString = readLine(prompt);
+
+			switch (modelString.toUpperCase()) {
+			case Constants.JUMBO_JET:
+				return AircraftModel.JUMBO_JET;
+			case Constants.BUSINESS_JET:
+				return AircraftModel.BUSINESS_JET;
+			default:
+				errorMessage("Error: invalid input %s", modelString);
+			}
+		}
+	}
+
 	private SectionType parseSectionType(String prompt) {
 		while (true) {
 			String sectionString = readLine(prompt);
@@ -256,13 +307,13 @@ public class Parser {
 		}
 	}
 
-	private int parseSeatNo(String prompt, SectionType selectedSection) {
+	private int parseSeatNo(String prompt, int AircraftNo, SectionType selectedSection) {
 		while (true) {
 			String seatString = readLine(prompt);
 
 			try {
 				int seatNo = Integer.parseInt(seatString);
-				if (seatNo == 0 || logicIF.isSeatAvailable(seatNo, selectedSection)) {
+				if (seatNo == 0 || logicIF.isSeatAvailable(AircraftNo, seatNo, selectedSection)) {
 					return seatNo;
 				} else {
 					errorMessage("Error: %d is not an available seat", seatNo);
@@ -309,9 +360,9 @@ public class Parser {
 	// ------------------------------------------------------------------------
 	// Utilities for outputting Meal and Seat items
 	// ------------------------------------------------------------------------
-	private void displayFreeSeatList(SectionType sectionType) {
-		Iterator<Seat> iter = logicIF.getSeats();
-		infoMessage("Available seats in aircraft %d: ", selectedAircraft);
+	private void displayFreeSeatList(int aircraftNo, SectionType sectionType) {
+		Iterator<Seat> iter = logicIF.getSeats(aircraftNo);
+		infoMessage("Available seats in aircraft %d: ", aircraftNo);
 		boolean areAnySeatsOutput = false;
 
 		while (iter.hasNext()) {
@@ -328,10 +379,10 @@ public class Parser {
 		System.out.println();
 	}
 
-	private void displaySeats() {
-		Iterator<Seat> iter = logicIF.getSeats();
+	private void displaySeats(int aircraftNo) {
+		Iterator<Seat> iter = logicIF.getSeats(aircraftNo);
 
-		infoMessage("Reservations made in aircraft %d: ", selectedAircraft);
+		infoMessage("Reservations made in aircraft %d: ", aircraftNo);
 		displaySeatHeader();
 		while (iter.hasNext()) {
 			displaySeat(iter.next());

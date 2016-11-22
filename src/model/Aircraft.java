@@ -58,7 +58,7 @@ public abstract class Aircraft {
 		}
 	}
 	
-	public void depart(int aircraftNo) {
+	public void depart() {
 		
 		//TODO: update the body 
 	}

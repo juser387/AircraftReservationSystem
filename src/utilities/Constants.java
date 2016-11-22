@@ -16,6 +16,7 @@ public class Constants {
 	public final static int BUSINESS_JET_NO_OF_SEATS = 6;
 	public final static int BUSINESS_JET_NO_OF_FIRST_CLASS_SEATS = 2;
 	
+	
 	// String constants
 	public static final String HELP_CMD = "HELP";
 	public static final String BOOK_CMD = "BOOK";
