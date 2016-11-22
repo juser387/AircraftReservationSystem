@@ -1,7 +1,5 @@
 package model;
 
-import utilities.SectionType;
-import utilities.Constants;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -13,7 +11,7 @@ import java.util.Iterator;
 
 public abstract class Aircraft {
 
-	private ArrayList<Seat> seatList;
+	protected ArrayList<Seat> seatList;
 
 	private int aircraftID;
 
@@ -31,6 +29,7 @@ public abstract class Aircraft {
 		seatList = new ArrayList<Seat>();
 		addSeats(seatList);
 	}
+	
 
 	/**********************************************************************
 	 * Method description
@@ -40,18 +39,6 @@ public abstract class Aircraft {
 	 * 
 	 *********************************************************************/
 	public abstract void addSeats(ArrayList<Seat> seats);
-	
-//	private void addSeats(ArrayList<Seat> seats) {
-//
-//		while (seats.size() < Constants.NO_OF_SEATS) {
-//
-//			if (seats.size() < Constants.NO_OF_FIRST_CLASS_SEATS) {
-//				seatList.add(new Seat(seats.size(), Constants.PRICE_FIRST, SectionType.FIRST));
-//			} else {
-//				seatList.add(new Seat(seats.size(), Constants.PRICE_ECONOMY, SectionType.ECONOMY));
-//			}
-//		}
-//	}
 
 	public Iterator<Seat> getIterator() {
 		return seatList.iterator();
