@@ -92,7 +92,7 @@ public abstract class Aircraft {
 	}
 
 	// Does not have to be protected
-	public int getAircraftID() {
+	public int getAircraftID() { 
 		return aircraftID;
 	}
 
