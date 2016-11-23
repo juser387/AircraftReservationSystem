@@ -24,9 +24,9 @@ public class FlightThread implements Runnable {
 
 			Thread.sleep(Constants.REFUEL_TIME);
 			System.out.println("Refuel" + Thread.currentThread().getName());
-
-			// TODO: Clear all bookings
-
+			
+			aircraft.clearAllSeatsUnprotected();
+			System.out.println("The Aircraft No " + Thread.currentThread().getName() + " is ready for booking.");
 			aircraft.setFlying(false);
 
 		} catch (InterruptedException e) {
