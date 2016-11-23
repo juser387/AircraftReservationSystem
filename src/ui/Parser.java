@@ -90,6 +90,11 @@ public class Parser {
 			return;
 		}
 
+		if (logicIF.isAircraftFlying(selectedAircraftNo)) {
+			errorMessage("Selected aircraft %d is currently flying. Bookings are disabled.", selectedAircraftNo);
+			return;
+		}
+
 		boolean isFirstAvailable = logicIF.areSeatsAvailable(selectedAircraftNo, SectionType.FIRST);
 		boolean isEconomyAvailable = logicIF.areSeatsAvailable(selectedAircraftNo, SectionType.ECONOMY);
 
@@ -167,12 +172,23 @@ public class Parser {
 			return;
 		}
 
+		if (logicIF.isAircraftFlying(selectedAircraftNo)) {
+			errorMessage("Selected aircraft %d is currently flying.", selectedAircraftNo);
+			return;
+		}
+
 		displaySeats(selectedAircraftNo);
 	}
 
 	private void parseSum() {
 		int forAircraft = parseAircraftNo("Enter aircraft no (0 = all): ");
+
 		if (forAircraft != 0) {
+			if (logicIF.isAircraftFlying(forAircraft)) {
+				errorMessage("Aircraft %d is currently flying.", forAircraft);
+				return;
+			}
+
 			infoMessage("Total revenue for aircraft %d: %.2f", forAircraft, logicIF.getTotalRevenue(forAircraft));
 			infoMessage("Total profit for aircraft %d: %.2f", forAircraft, logicIF.getTotalProfit(forAircraft));
 		} else {
@@ -188,6 +204,11 @@ public class Parser {
 		}
 
 		if (parseConfirm(String.format("Confirm clear for aircraft %d (y/n): ", selectedAircraftNo))) {
+			if (logicIF.isAircraftFlying(selectedAircraftNo)) {
+				errorMessage("Selected aircraft %d is currently flying.", selectedAircraftNo);
+				return;
+			}
+
 			logicIF.clearAllReservations(selectedAircraftNo);
 			infoMessage("All reservations cleared");
 		} else {
@@ -211,6 +232,11 @@ public class Parser {
 		}
 
 		if (parseConfirm(String.format("Confirm departure for aircraft %d (y/n): ", selectedAircraftNo))) {
+			if (logicIF.isAircraftFlying(selectedAircraftNo)) {
+				errorMessage("Selected aircraft %d is currently flying.", selectedAircraftNo);
+				return;
+			}
+
 			logicIF.departAircraft(selectedAircraftNo);
 			infoMessage("Aircraft %d has been scheduled for take off. Bookings are disabled.", selectedAircraftNo);
 		} else {

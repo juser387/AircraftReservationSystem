@@ -91,12 +91,8 @@ public abstract class Aircraft {
 		flightThread.start();
 	}
 
-	// May only be called when the aircraft is not flying
+	// Does not have to be protected
 	public int getAircraftID() {
-		if (isFlying()) {
-			throw new IllegalStateException();
-		}
-
 		return aircraftID;
 	}
 
