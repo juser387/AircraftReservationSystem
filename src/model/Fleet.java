@@ -23,8 +23,14 @@ public class Fleet {
 		aircraftList.add(aircraft);
 	}
 
+	// May only be called when the aircraft is not flying
 	public void removeAircraft(int aircraftNo) {
 		Aircraft aircraft = findAircraft(aircraftNo);
+		
+		if (aircraft.isFlying()) {
+			throw new IllegalStateException();
+		}
+		
 		if (aircraft != null) {
 			aircraftList.remove(aircraft);
 		}
