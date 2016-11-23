@@ -14,6 +14,8 @@ public abstract class Aircraft {
 	protected ArrayList<Seat> seatList;
 
 	private int aircraftID;
+	
+	private boolean isFlying = false;
 
 	/**********************************************************************
 	 * Constructor description
@@ -59,11 +61,26 @@ public abstract class Aircraft {
 	}
 	
 	public void depart() {
+
+		setFlying(true);
 		
-		//TODO: update the body 
+		Thread flightThread = new Thread(new FlightThread(this));
+		flightThread.start();
 	}
 	
 	public int getAircraftID() {
 		return aircraftID;
 	}
+
+
+	public synchronized boolean isFlying() {
+		return isFlying;
+	}
+
+
+	public synchronized void setFlying(boolean isFlying) {
+		this.isFlying = isFlying;
+	}
+	
+	
 }

@@ -16,6 +16,10 @@ public class Constants {
 	public final static int BUSINESS_JET_NO_OF_SEATS = 6;
 	public final static int BUSINESS_JET_NO_OF_FIRST_CLASS_SEATS = 2;
 	
+	public final static int TAKE_OFF_TIME = 2_000;
+	public final static int FLIGHT_TIME = 2_000;
+	public final static int REFUEL_TIME = 2_000;
+	
 	
 	// String constants
 	public static final String HELP_CMD = "HELP";
@@ -31,5 +35,6 @@ public class Constants {
 	
 	public static final String BUSINESS_JET = "BUSINESS JET";
 	public static final String JUMBO_JET = "JUMBO JET";
+	
 	
 }
