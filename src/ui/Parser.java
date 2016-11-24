@@ -237,6 +237,7 @@ public class Parser {
 
 			logicIF.departAircraft(selectedAircraftNo);
 			infoMessage("Aircraft %d has been scheduled for take off. Bookings are disabled.", selectedAircraftNo);
+			promptRuntime();
 		} else {
 			infoMessage("Cancelled. No changes made.");
 		}
@@ -511,5 +512,19 @@ public class Parser {
 	private String readLine(String prompt) {
 		System.out.print(prompt);
 		return scanner.nextLine().trim();
+	}
+	
+	private void promptRuntime() {
+		
+		paus(Constants.DELAY_TIME);
+	}
+	
+	private void paus(int sleep) {
+
+		try {
+			Thread.sleep(sleep);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
