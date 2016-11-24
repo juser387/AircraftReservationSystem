@@ -43,7 +43,7 @@ public abstract class Aircraft {
 
 	// May only be called when the aircraft is not flying
 	public Iterator<Seat> getIterator() {
-		if (isFlying()) {
+		if (getFlying()) {
 			throw new IllegalStateException();
 		}
 
@@ -52,7 +52,7 @@ public abstract class Aircraft {
 
 	// May only be called when the aircraft is not flying
 	public Seat findSeat(int seatNo) {
-		if (isFlying()) {
+		if (getFlying()) {
 			throw new IllegalStateException();
 		}
 
@@ -65,7 +65,7 @@ public abstract class Aircraft {
 
 	// May only be called when the aircraft is not flying
 	public void clearAllSeats() {
-		if (isFlying()) {
+		if (getFlying()) {
 			throw new IllegalStateException();
 		}
 
@@ -81,7 +81,7 @@ public abstract class Aircraft {
 
 	// May only be called when the aircraft is not flying
 	public void depart() {
-		if (isFlying()) {
+		if (getFlying()) {
 			throw new IllegalStateException();
 		}
 
@@ -96,7 +96,7 @@ public abstract class Aircraft {
 		return aircraftID;
 	}
 
-	public synchronized boolean isFlying() {
+	public synchronized boolean getFlying() {
 		return isFlying;
 	}
 
