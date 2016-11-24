@@ -63,17 +63,14 @@ public abstract class Aircraft {
 		return null;
 	}
 
-	// May only be called when the aircraft is not flying
-	public void clearAllSeats() {
-		if (getFlying()) {
-			throw new IllegalStateException();
+	// May be called from a flight thread or during aircraft bookings 
+	public void clearAllSeats(boolean isCalledByThread) {
+
+		if (!isCalledByThread) {
+			if (getFlying())
+				throw new IllegalStateException();
 		}
 
-		clearAllSeats();
-	}
-
-	// Unprotected version of clearAllSeats() - only to called from flight thread
-	public void clearAllSeatsUnprotected() {
 		for (Seat seat : seatList) {
 			seat.setPassenger(null);
 		}
@@ -92,7 +89,7 @@ public abstract class Aircraft {
 	}
 
 	// Does not have to be protected
-	public int getAircraftID() { 
+	public int getAircraftID() {
 		return aircraftID;
 	}
 
