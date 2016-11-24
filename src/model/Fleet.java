@@ -27,7 +27,7 @@ public class Fleet {
 	public void removeAircraft(int aircraftNo) {
 		Aircraft aircraft = findAircraft(aircraftNo);
 		
-		if (aircraft.isFlying()) {
+		if (aircraft.getFlying()) {
 			throw new IllegalStateException();
 		}
 		
