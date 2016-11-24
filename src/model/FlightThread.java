@@ -14,19 +14,17 @@ public class FlightThread implements Runnable {
 	@Override
 	public void run() {
 		try {
-			System.out.println("aircraft is " + aircraft.getAircraftID());
-
 			Thread.sleep(Constants.TAKE_OFF_TIME);
-			System.out.println("Take off" + Thread.currentThread().getName());
+			System.out.println("\n\nTake off - managed by thread ID " + Thread.currentThread().getId());
 
 			Thread.sleep(Constants.FLIGHT_TIME);
-			System.out.println("Flight" + Thread.currentThread().getName());
+			System.out.println("Flight - carried through " + Thread.currentThread().getName());
 
 			Thread.sleep(Constants.REFUEL_TIME);
-			System.out.println("Refuel" + Thread.currentThread().getName());
+			System.out.println("Refuel - managed by " + Thread.currentThread().getName());
 			
 			aircraft.clearAllSeatsUnprotected();
-			System.out.println("The Aircraft No " + Thread.currentThread().getName() + " is ready for booking.");
+			System.out.println("\nThe Aircraft No " + aircraft.getAircraftID() + " is ready for booking.\n");
 			aircraft.setFlying(false);
 
 		} catch (InterruptedException e) {
