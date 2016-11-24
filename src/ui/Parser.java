@@ -2,8 +2,6 @@ package ui;
 
 import java.util.Iterator;
 import java.util.Scanner;
-
-import model.Fleet;
 import model.Meal;
 import model.Seat;
 import utilities.SectionType;

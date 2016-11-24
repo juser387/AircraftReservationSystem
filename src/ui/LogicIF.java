@@ -11,7 +11,6 @@ import model.Menu;
 import model.Passenger;
 import model.Seat;
 import utilities.AircraftModel;
-import utilities.Constants;
 import utilities.SectionType;
 
 public class LogicIF {
