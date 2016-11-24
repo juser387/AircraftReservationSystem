@@ -261,8 +261,10 @@ public class Parser {
 			return;
 		}
 
-		logicIF.removeAircraft(existingAircraft);
-		infoMessage("Aircraft %d removed from the fleat", existingAircraft);
+		if (!(logicIF.isAircraftFlying(existingAircraft))) {
+			logicIF.removeAircraft(existingAircraft);
+			infoMessage("Aircraft %d removed from the fleat", existingAircraft);
+		}
 	}
 
 	// ------------------------------------------------------------------------
