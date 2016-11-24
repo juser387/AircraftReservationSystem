@@ -35,7 +35,7 @@ public class LogicIF {
 	}
 
 	public boolean isAircraftFlying(int aircraftNo) {
-		return fleet.findAircraft(aircraftNo).isFlying();
+		return fleet.findAircraft(aircraftNo).getFlying();
 	}
 
 	public void addAircraft(int aircraftNo, AircraftModel aircraftModel) {
