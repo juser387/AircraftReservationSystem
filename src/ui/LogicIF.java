@@ -172,7 +172,8 @@ public class LogicIF {
 	}
 
 	public void clearAllReservations(int aircraftNo) {
-		fleet.findAircraft(aircraftNo).clearAllSeats();
+		boolean isCalledByMe = false;
+		fleet.findAircraft(aircraftNo).clearAllSeats(isCalledByMe);
 	}
 
 }
