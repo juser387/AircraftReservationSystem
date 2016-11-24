@@ -208,7 +208,7 @@ public class Parser {
 			}
 
 			logicIF.clearAllReservations(selectedAircraftNo);
-			infoMessage("All reservations cleared");
+			infoMessage("All reservations cancelled");
 		} else {
 			infoMessage("Cancelled. No changes made.");
 		}
@@ -248,10 +248,10 @@ public class Parser {
 		if (newAircraftNo == 0) {
 			return;
 		}
-		AircraftModel aircraftModel = parseAircraftModel("Enter aircraft model (exit = cancel): ");
+		AircraftModel aircraftModel = parseAircraftModel("Enter aircraft model (business jet / jumbo jet, exit = cancel): ");
 
 		logicIF.addAircraft(newAircraftNo, aircraftModel);
-		infoMessage("Aircraft %d added to the fleat", newAircraftNo);
+		infoMessage("Aircraft %d added to the fleet", newAircraftNo);
 	}
 
 	private void parseRemoveAircraft() {
@@ -262,7 +262,7 @@ public class Parser {
 
 		if (!(logicIF.isAircraftFlying(existingAircraft))) {
 			logicIF.removeAircraft(existingAircraft);
-			infoMessage("Aircraft %d removed from the fleat", existingAircraft);
+			infoMessage("Aircraft %d removed from the fleet", existingAircraft);
 		}
 	}
 
