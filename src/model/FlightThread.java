@@ -4,15 +4,16 @@ import utilities.Constants;
 
 public class FlightThread implements Runnable {
 
-	Aircraft aircraft;
+	private Aircraft aircraft;
 
 	public FlightThread(Aircraft aircraft) {
-		super();
+		
 		this.aircraft = aircraft;
 	}
 
 	@Override
 	public void run() {
+		boolean isCalledByMe = true;
 		try {
 			Thread.sleep(Constants.TAKE_OFF_TIME);
 			System.out.println("\n\nTake off - managed by thread ID " + Thread.currentThread().getId());
@@ -22,8 +23,8 @@ public class FlightThread implements Runnable {
 
 			Thread.sleep(Constants.REFUEL_TIME);
 			System.out.println("Refuel - managed by " + Thread.currentThread().getName());
-			
-			aircraft.clearAllSeatsUnprotected();
+
+			aircraft.clearAllSeats(isCalledByMe);
 			System.out.println("\nThe Aircraft No " + aircraft.getAircraftID() + " is ready for booking.\n");
 			aircraft.setFlying(false);
 
