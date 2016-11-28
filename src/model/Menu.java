@@ -5,9 +5,9 @@ import java.util.Iterator;
 import utilities.SectionType;
 
 /**
- * Class description field
+ * Describes a menu with meals .
  * 
- * @author
+ * @author Kenneth Nilsson
  */
 
 public class Menu {
@@ -18,7 +18,6 @@ public class Menu {
 	 * Constructor description
 	 *
 	 * @param ...
-	 * @param ....
 	 * 
 	 *********************************************************************/
 	public Menu() {
