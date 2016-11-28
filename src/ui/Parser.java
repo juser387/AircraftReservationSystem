@@ -8,14 +8,22 @@ import utilities.SectionType;
 import utilities.AircraftModel;
 import utilities.Constants;
 
+/**
+ * Acts as a parser interfacing with the user.
+ * 
+ * @author Leif Ekeroot
+ */
+
 public class Parser {
 	private Scanner scanner = new Scanner(System.in);
 	private LogicIF logicIF = new LogicIF();
 	private int selectedAircraftNo = 1;
 
-	// ------------------------------------------------------------------------
-	// parse() - main parsing loop
-	// ------------------------------------------------------------------------
+	/**********************************************************************
+	 * Main parsing loop
+	 *
+	 *********************************************************************/
+
 	public void parse() {
 		boolean doContinue = true;
 
@@ -66,9 +74,11 @@ public class Parser {
 		}
 	}
 
-	// ------------------------------------------------------------------------
-	// Methods for parsing the parameters for the commands
-	// ------------------------------------------------------------------------
+	/**********************************************************************
+	 * Methods for parsing the parameters for the commands
+	 * 
+	 *********************************************************************/
+
 	private void parseHelp() {
 		infoMessage("Available commands are:");
 		infoMessage("  %s", Constants.BOOK_CMD);
@@ -248,7 +258,8 @@ public class Parser {
 		if (newAircraftNo == 0) {
 			return;
 		}
-		AircraftModel aircraftModel = parseAircraftModel("Enter aircraft model (business jet / jumbo jet, exit = cancel): ");
+		AircraftModel aircraftModel = parseAircraftModel(
+				"Enter aircraft model (business jet / jumbo jet, exit = cancel): ");
 
 		logicIF.addAircraft(newAircraftNo, aircraftModel);
 		infoMessage("Aircraft %d added to the fleet", newAircraftNo);
@@ -266,9 +277,11 @@ public class Parser {
 		}
 	}
 
-	// ------------------------------------------------------------------------
-	// Methods for parsing parameter values
-	// ------------------------------------------------------------------------
+	/**********************************************************************
+	 * Methods for parsing parameter values
+	 * 
+	 *********************************************************************/
+
 	private int parseAircraftNo(String prompt) {
 		while (true) {
 			String aircraftString = readLine(prompt);
@@ -384,9 +397,11 @@ public class Parser {
 		}
 	}
 
-	// ------------------------------------------------------------------------
-	// Utilities for outputting Meal and Seat items
-	// ------------------------------------------------------------------------
+	/**********************************************************************
+	 * Utilities for outputting Meal and Seat items
+	 * 
+	 *********************************************************************/
+
 	private void displayFreeSeatList(int aircraftNo, SectionType sectionType) {
 		Iterator<Seat> iter = logicIF.getSeats(aircraftNo);
 		infoMessage("Available seats in aircraft %d: ", aircraftNo);
@@ -488,9 +503,11 @@ public class Parser {
 		System.out.println(sb);
 	}
 
-	// ------------------------------------------------------------------------
-	// Utilities
-	// ------------------------------------------------------------------------
+	/**********************************************************************
+	 * Misc. utilities
+	 * 
+	 *********************************************************************/
+
 	private void appendString(StringBuffer sb, String s, int length) {
 		for (int i = 0; i < length; i++) {
 			if (i < s.length()) {
@@ -513,12 +530,12 @@ public class Parser {
 		System.out.print(prompt);
 		return scanner.nextLine().trim();
 	}
-	
+
 	private void promptRuntime() {
-		
+
 		paus(Constants.DELAY_TIME);
 	}
-	
+
 	private void paus(int sleep) {
 
 		try {

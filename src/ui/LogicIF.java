@@ -13,18 +13,22 @@ import model.Seat;
 import utilities.AircraftModel;
 import utilities.SectionType;
 
-public class LogicIF {
+/**
+ * Acts as a logic interface to the business model.
+ * 
+ * @author Leif Ekeroot
+ */
 
-	/*
-	 * =======================================================================
-	 * References to the business model
-	 * =======================================================================
-	 */
+public class LogicIF {
 
 	private Fleet fleet = new Fleet();
 	private Menu menu = new Menu();
 
-	// The constructor initialises the aircraft fleet with one initial aircraft.
+	/**********************************************************************
+	 * Initializes the aircraft fleet with one initial aircraft
+	 * 
+	 *********************************************************************/
+
 	LogicIF() {
 		fleet.addAircraft(new JumboJet(1));
 	}
@@ -79,7 +83,7 @@ public class LogicIF {
 	}
 
 	public boolean isSeatAvailable(int aircraftNo, int seatNo, SectionType sectionType) {
-		Seat seat = fleet.findAircraft(aircraftNo).findSeat(seatNo);
+		Seat seat = (Seat) fleet.findAircraft(aircraftNo).findSeat(seatNo);
 		if (seat != null) {
 			return seat.getPassenger() == null && seat.getSectionType() == sectionType;
 		} else {
@@ -88,7 +92,7 @@ public class LogicIF {
 	}
 
 	public double getSeatPrice(int aircraftNo, int seatNo) {
-		Seat seat = fleet.findAircraft(aircraftNo).findSeat(seatNo);
+		Seat seat = (Seat) fleet.findAircraft(aircraftNo).findSeat(seatNo);
 		return seat.getSeatPrice();
 	}
 
@@ -158,7 +162,7 @@ public class LogicIF {
 	public double getTotalProfit() {
 		Iterator<Aircraft> iter = fleet.getIterator();
 		double totalProfit = 0.0;
-		
+
 		while (iter.hasNext()) {
 			totalProfit += getTotalProfit(iter.next());
 		}
@@ -167,7 +171,7 @@ public class LogicIF {
 	}
 
 	public void makeReservation(int aircraftNo, int seatNo, String passengerName, int mealNo) {
-		Seat seat = fleet.findAircraft(aircraftNo).findSeat(seatNo);
+		Seat seat = (Seat) fleet.findAircraft(aircraftNo).findSeat(seatNo);
 		seat.setPassenger(new Passenger(passengerName, mealNo));
 	}
 
@@ -175,5 +179,4 @@ public class LogicIF {
 		boolean isCalledByMe = false;
 		fleet.findAircraft(aircraftNo).clearAllSeats(isCalledByMe);
 	}
-
 }
