@@ -4,7 +4,21 @@ import java.util.ArrayList;
 import utilities.Constants;
 import utilities.SectionType;
 
+/**
+ * Implements a specific aircraft model adapted for JUMBO JET with seat configuration details.
+ * 
+ * @author Kenneth Nilsson
+ */
+
 public class JumboJet extends Aircraft {
+
+	/**********************************************************************
+	 * Create seat configuration and the aircraft object
+	 * 
+	 * @param id
+	 *            the aircraft ID
+	 * 
+	 *********************************************************************/
 
 	public JumboJet(int id) {
 
@@ -14,6 +28,14 @@ public class JumboJet extends Aircraft {
 
 		addSeats(seatList);
 	}
+
+	/**********************************************************************
+	 * Add seat configuration to JUMBO JET aircraft model
+	 *
+	 * @param seats
+	 *            the list of seats
+	 * 
+	 *********************************************************************/
 
 	@Override
 	public void addSeats(ArrayList<Seat> seats) {
