@@ -2,12 +2,18 @@ package model;
 
 import utilities.Constants;
 
+/**
+ * Simulates depart command, including stages when take-off, flight and refuel.
+ * 
+ * @author Kenneth Nilsson
+ */
+
 public class FlightThread implements Runnable {
 
 	private Aircraft aircraft;
 
 	public FlightThread(Aircraft aircraft) {
-		
+
 		this.aircraft = aircraft;
 	}
 
