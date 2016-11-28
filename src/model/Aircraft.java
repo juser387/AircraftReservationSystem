@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * Class description field
+ * Describes a general aircraft model.
  * 
- * @author
+ * @author Kenneth Nilsson
  */
 
 public abstract class Aircraft {
@@ -18,12 +18,13 @@ public abstract class Aircraft {
 	private boolean isFlying = false;
 
 	/**********************************************************************
-	 * Constructor description
-	 *
-	 * @param ...
-	 * @param ....
+	 * Create seat configuration
+	 * 
+	 * @param id
+	 *            the aircraft ID
 	 * 
 	 *********************************************************************/
+	
 	public Aircraft(int id) {
 
 		this.aircraftID = id;
@@ -33,12 +34,13 @@ public abstract class Aircraft {
 	}
 
 	/**********************************************************************
-	 * Method description
+	 * Abstract method implemented in sub classes
 	 *
-	 * @param ...
-	 * @param ....
+	 * @param seats
+	 *            the list of seats
 	 * 
 	 *********************************************************************/
+	
 	public abstract void addSeats(ArrayList<Seat> seats);
 
 	// May only be called when the aircraft is not flying
@@ -63,7 +65,7 @@ public abstract class Aircraft {
 		return null;
 	}
 
-	// May be called from a flight thread or during aircraft bookings 
+	// May be called from a flight thread or during aircraft bookings
 	public void clearAllSeats(boolean isCalledByThread) {
 
 		if (!isCalledByThread) {
@@ -100,5 +102,4 @@ public abstract class Aircraft {
 	public synchronized void setFlying(boolean isFlying) {
 		this.isFlying = isFlying;
 	}
-
 }
