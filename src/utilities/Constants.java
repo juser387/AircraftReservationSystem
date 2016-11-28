@@ -1,10 +1,9 @@
 package utilities;
 
-/**
- * Class description field
+/******************************************************************************
+ * Utility class which is used for represent commands and data in program.
  * 
- * @author
- */
+ ******************************************************************************/
 
 public class Constants {
 
