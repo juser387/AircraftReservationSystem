@@ -1,9 +1,9 @@
 package model;
 
 /**
- * Class description field
+ * Describes passengers with meal reservation.
  * 
- * @author
+ * @author Kenneth Nilsson
  */
 
 public class Passenger {
@@ -15,7 +15,6 @@ public class Passenger {
 	 * Constructor description
 	 *
 	 * @param ...
-	 * @param ....
 	 * 
 	 *********************************************************************/
 	public Passenger(String name, int mealNo) {

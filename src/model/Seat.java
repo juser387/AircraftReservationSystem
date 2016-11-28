@@ -3,9 +3,9 @@ package model;
 import utilities.SectionType;
 
 /**
- * Class description field
+ * Describes seat reservation with different section types.
  * 
- * @author
+ * @author Kenneth Nilsson
  */
 
 public class Seat extends Object {
