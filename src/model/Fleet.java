@@ -3,6 +3,12 @@ package model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * Implements a fleet which can add, remove and find a specific vehicle at the base.
+ * 
+ * @author Kenneth Nilsson
+ */
+
 public class Fleet {
 
 	private ArrayList<Aircraft> aircraftList = new ArrayList<>();
