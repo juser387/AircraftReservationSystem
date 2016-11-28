@@ -3,9 +3,9 @@ package model;
 import utilities.SectionType;
 
 /**
- * Class description field
+ * Describes a meal.
  * 
- * @author
+ * @author Kenneth Nilsson
  */
 
 public class Meal {
@@ -19,7 +19,6 @@ public class Meal {
 	 * Constructor description
 	 *
 	 * @param ...
-	 * @param ....
 	 * 
 	 *********************************************************************/
 	public Meal(int mealID, double mealPrice, String mealDescription, SectionType sectionType) {
